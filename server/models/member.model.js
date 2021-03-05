@@ -2,11 +2,6 @@ const { DataTypes } = require('sequelize');
 const db = require('.');
 
 const Member = db.define('Member', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true
-  },
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -26,14 +21,61 @@ const Member = db.define('Member', {
   birthday: {
     type: DataTypes.DATE,
     allowNull: false
+  },
+  depthLevel: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   }
 });
 
-const associationOpts = {
-  foreignKey: 'memberId',
-  as: 'members',
-}
+Member.belongsToMany(Member, { 
+  as: 'Children', 
+  through: 'MemberChildren'
+});
 
-Member.hasMany(Member, associationOpts);
+Member.belongsToMany(Member, { 
+  as: 'Parent', 
+  through: 'MemberParent'
+});
 
-module.exports = Member;
+
+// const testCreation = async () => {
+//   await db.sync({force: true});
+
+//   const testFather = await Member.create({
+//     firstName: 'Hector',
+//   });
+
+//   const testSon = await Member.create({
+//     firstName: 'Nicky'
+//   });
+
+//   const testSon2 = await Member.create({
+//     firstName: 'Logan'
+//   })
+
+//   const testGpa = await Member.create({
+//     firstName: 'Eddie'
+//   })
+
+//   await testFather.addChildren(testSon);
+//   await testFather.addChildren(testSon2);
+//   await testGpa.addChildren(testFather);
+
+//   const users = await Member.findAll({
+//     include: [{
+//       model: Member,
+//       as: 'Children'
+//     }]
+//   });
+
+//   users.forEach(user => console.log(user.toJSON()));
+// }  
+// testCreation();
+
+
+
+module.exports = {
+  Member,
+};
+

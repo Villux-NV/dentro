@@ -1,8 +1,10 @@
 const { Router } = require('express');
-const { getMembersCtrl, getMemberByIdCtrl, getParentByChildIdCtrl, getChildrenByParentIdCtrl,createMemberCtrl, createChildrenCtrl, addConnectionCtrl } = require('./controllers');
+const { getTreeCtrl, getMembersCtrl, getMemberByIdCtrl, getParentByChildIdCtrl, getChildrenByParentIdCtrl,createMemberCtrl, createChildrenCtrl, addConnectionCtrl } = require('./controllers');
 
 const router = Router();
 
+
+router.get('/membertree', getTreeCtrl);
 router.get('/members', getMembersCtrl);
 router.get('/members/:primaryId', getMemberByIdCtrl);
 router.get('/parent/:primaryId', getParentByChildIdCtrl);

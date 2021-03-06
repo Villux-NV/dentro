@@ -1,5 +1,15 @@
 const { default: validator } = require('validator');
-const { getMembers, getMemberById, createMember, createChild, createConnectionByIds } = require('../models/crud');
+const { getTree, getMembers, getMemberById, createMember, createChild, createConnectionByIds } = require('../models/crud');
+
+exports.getTreeCtrl = async (req, res) => {
+  try {
+    const members = await getTree();
+
+    res.status(200).json(members);
+  } catch (err) {
+    res.status(500).json({ error: 'Error Ctrl Tree', status: 500 });
+  }
+}
 
 exports.getMembersCtrl = async (req, res) => {
   try {

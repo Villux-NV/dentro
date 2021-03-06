@@ -28,6 +28,7 @@ const Member = db.define('Member', {
   }
 });
 
+
 Member.belongsToMany(Member, { 
   as: 'Children', 
   through: 'MemberChildren'
@@ -38,6 +39,10 @@ Member.belongsToMany(Member, {
   through: 'MemberParent'
 });
 
+
+module.exports = {
+  Member,
+};
 
 // const testCreation = async () => {
 //   await db.sync({force: true});
@@ -72,10 +77,3 @@ Member.belongsToMany(Member, {
 //   users.forEach(user => console.log(user.toJSON()));
 // }  
 // testCreation();
-
-
-
-module.exports = {
-  Member,
-};
-

@@ -1,5 +1,4 @@
 import MemberCard from './member-card';
-import Members from './test-cards';
 
 function MainContent () {
 
@@ -7,8 +6,7 @@ function MainContent () {
     <div className='main-container'>
       <h2 className='d-flex justify-content-center'>Family</h2>
       <div>
-        {/* <MemberCard /> */}
-        <Members />
+        <MemberCard />
       </div>
     </div>
   )

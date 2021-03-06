@@ -1,4 +1,3 @@
-import Menu from './menu';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 function Navigation () {

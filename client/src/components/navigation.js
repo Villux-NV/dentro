@@ -40,7 +40,7 @@ const Navigation = () => {
   )
 }
 
-const Path = props => {
+const Path = (props) => {
   <motion.path
     fill='transparent'
     strokeWidth='3'

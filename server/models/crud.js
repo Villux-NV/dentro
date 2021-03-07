@@ -76,15 +76,17 @@ const getMemberById = async (primaryId) => {
 const createMember = async ({
   firstName,
   lastName,
-  email,
-  password,
-  birthday,
+  // email,
+  // password,
+  // birthday,
 }) => {
   try {
-    let member = await Member.findOne({ where: { firstName } });
-    if (member) return false;
+    // not needed for creating members in tree, will need for auth
+    // let member = await Member.findOne({ where: { firstName } });
+    // if (member) return false;
     
-    member = await Member.create({ firstName, lastName, email, password, birthday });
+    // email, password, birthday
+    member = await Member.create({ firstName, lastName });
 
     return member;
   } catch (err) {
@@ -93,14 +95,14 @@ const createMember = async ({
   }
 };
 
-const createChild = async (parent, child) => {
+const createChild = async (parentId, child) => {
   try {
-    const memberParent = await Member.findOne({ where: { id: parent } });
-    await child.addParent(parent);
+    const memberParent = await Member.findOne({ where: { id: parentId } });
 
-    const memberChild = await memberParent.addChildren(child);
+    await child.addParent(memberParent);
+    await memberParent.addChildren(child);
 
-    return memberChild;
+    return child;
   } catch (err) {
     console.log(`Error Create Child: ${err}`);
     return { error: 'DB Connection: Create Child'};
@@ -122,6 +124,17 @@ const createConnectionByIds = async (parent, child) => {
   }
 }
 
+const deleteMemberById = async (memberId) => {
+  try {
+    const deletedMember = await Member.destroy({ where: { id: memberId } });
+
+    return deleteMember;
+  } catch (err) {
+    console.log(`Error Create Connection: ${err}`);
+    return { error: 'DB Connection: Delete Member'};
+  }
+}
+
 module.exports = {
   getTree,
   getMembers,
@@ -129,4 +142,5 @@ module.exports = {
   createMember,
   createChild,
   createConnectionByIds,
+  deleteMemberById,
 };

@@ -1,14 +1,24 @@
 import './App.css';
 import MainContent from './components/main-content';
-import Navigation from './components/navbar';
+import TopNavigation from './components/top-navigation';
+
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <div className='app-container'>
-      <Navigation />
+    <Router>
+      <div className='app-container'>
+        <TopNavigation />
 
-      <MainContent />
-    </div>
+        <div>
+          <Switch>
+            <Route path='/'>
+              <MainContent />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
 }
 

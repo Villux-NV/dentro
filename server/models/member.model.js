@@ -12,20 +12,16 @@ const Member = db.define('Member', {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false
+    // allowNull: false
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    // allowNull: false
   },
   birthday: {
     type: DataTypes.DATE,
-    allowNull: false
+    // allowNull: false
   },
-  depthLevel: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0
-  }
 });
 
 

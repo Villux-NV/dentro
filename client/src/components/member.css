@@ -1,50 +1,59 @@
-.memberchildren-groups:nth-child(1) > .memberchildren-children {
-  border: 2px solid yellow;
+.family__groups {
+  border: 1px solid red;
 }
 
-/* .memberchildren-children:nth-child(1) {
-  border: 2px solid red;
+.family__children {
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: center;
+  gap: 12px;
+}
+
+.family__nested {
   display: grid;
   grid-auto-flow: column;
-} */
+  justify-items: center;
+  gap: 12px;
+}
 
-/* .memberchildren-groups:nth-child(1n + 2) {
-  border: 2px solid white;
-  gap: 20px;
-} */
-
-.memberchildren-each {
+.family__members {
   display: flex;
   align-items: center;
   background-color: lightcoral;
   color: white;
-  width: 360px;
-  height: 100px;
+  width: 260px;
+  height: 80px;
   padding: 16px;
-}
-
-.memberchildren-avatar {
-  width: 60px;
-  height: 60px;
-  background-color: #666;
-  border-radius: 30px;
-}
-
-.memberchildren-names {
-  padding: 8px;
-}
-
-.memberchildren-button-container {
   position: relative;
 }
 
-.memberchildren-button {
-  position: absolute;
-  bottom: 68px;
-  left: 266px;
+.family__members__avatar {
+  width: 50px;
+  height: 50px;
+  background-color: #666;
+  border-radius: 25px;
 }
 
-/* .memberchildren-each:first-child {
-  color: black;
-  background-color: white;
-} */
+.family__members__names {
+  padding: 8px;
+}
+
+div.family__members__button {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  outline: none;
+}
+
+#dropdown-basic-button {
+  color: #666;
+  font-size: 20px;
+}
+
+.modal__body {
+  display: flex;
+}
+
+.modal__body__buttons {
+  padding: 10px;
+}

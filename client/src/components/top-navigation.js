@@ -1,8 +1,8 @@
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
-function Navigation () {
+function TopNavigation () {
   return (
-    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+    <Navbar collapseOnSelect bg='dark' variant='dark'>
       <Navbar.Brand href='#home'>Dentro</Navbar.Brand>
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       <Navbar.Collapse id='responsive-navbar-nav' className='justify-content-end'>
@@ -20,4 +20,4 @@ function Navigation () {
   )
 };
 
-export default Navigation;
+export default TopNavigation;

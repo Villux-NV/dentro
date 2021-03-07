@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import './member.css';
-import CardMenu from './card-menu';
+import MemberChildren from './member-card-children';
 
 const Members = () => {
   const [members, setMembers] = useState([]);
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [memberId, setMemberId] = useState('');
 
   useEffect(() => {
     async function getMembers () {
@@ -17,50 +21,74 @@ const Members = () => {
     getMembers();
   }, []);
 
+  const handleChangeFirstName = (e) => {
+    setFirstName(e.target.value);
+  }
+  
+  const handleChangeLastName = (e) => {
+    setLastName(e.target.value);
+  }
+
+  const handleMemberId = (id) => {
+    setMemberId(id);
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const init = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ firstName, lastName })
+    }
+
+    fetch(`http://localhost:3500/create/${memberId}`, init)
+      .then(res => res.json())
+      .then(data => setMembers(members.concat(data)));
+
+    setFirstName('');
+    setLastName('');
+  }
+
+  const handleDelete = (e) => {
+    // e.preventDefault();
+
+    console.log('Deleted!');
+
+    const init = {
+      method: 'DELETE',
+    }
+
+    fetch(`http://localhost:3500/delete/${memberId}`, init)
+      .then(res => res.json())
+      .then(() => setMembers(members.filter(member => member.id !== memberId)));
+  }
+
   return (
     <div>
       { 
-        members.map((member) => {
+        members.map((member, index) => {
           return (
-            <motion.div className='memberchildren-container'>
-              <MemberChildren key={member.id} member={member} />
+            <motion.div key={index} className='family__container'>
+              <MemberChildren
+                key={member.id+index}
+                member={member}
+                index={index}
+                onSubmit={onSubmit}
+                handleChangeFirstName={handleChangeFirstName}
+                handleChangeLastName={handleChangeLastName}
+                firstName={firstName}
+                lastName={lastName}
+                addMemberId={handleMemberId.bind(this)}
+                handleDelete={handleDelete}
+              />
             </motion.div>
           )
         })
       }
     </div>
-  )
-
-}
-
-const MemberChildren = ({ member, index }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleOpen = () => setIsOpen(!isOpen);
-
-  const nestedMembers = (member.Children || []).map((member, index) => {
-    return (
-      <AnimatePresence>
-        <MemberChildren
-          key={member.id}
-          member={member}
-          index={index}
-          type='child'
-        /> 
-      </AnimatePresence>
-    )
-  })
-
-  return (
-    <motion.div className='memberchildren-groups'>
-        <motion.div layout className='memberchildren-children'>
-          <motion.div layout initial={{ borderRadius: 25 }} className='memberchildren-each'>
-            <motion.div layout className='memberchildren-avatar'/>
-            <motion.div layout className='memberchildren-names'>{index} { member.firstName } { member.lastName }</motion.div>
-          </motion.div>
-          <CardMenu />
-        { nestedMembers }
-      </motion.div>
-    </motion.div>
   )
 }
 

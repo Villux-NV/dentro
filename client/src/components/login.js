@@ -38,22 +38,23 @@ const Login = ({ history }) => {
         transition={{ duration: .6 }}
       >
         <h4 className='d-flex justify-content-center'>Login</h4>
-        <Form className='form__container__initial'>
+        <Form className='form__container__initial' onSubmit={handleLogin}>
             <Form.Group controlId='formEmail'>
               <Form.Label>Email</Form.Label>
-              <Form.Control name='email' type='email'/>
+              <Form.Control name='email' type='email' autoComplete='current-email' />
             </Form.Group>
 
             <Form.Group controlId='formPassword'>
               <Form.Label>Password</Form.Label>
-              <Form.Control name='password' type='password'/>
+              <Form.Control name='password' type='password' autoComplete='current-password' />
             </Form.Group>
 
             <Button variant='outline-primary' size='sm' type='submit' value='Submit'>
               Submit
             </Button>
           </Form>
-
+          <hr />
+          <p>No account? <a href='/signup'>Sign Up</a></p>
       </motion.div>
     </motion.div>
   )

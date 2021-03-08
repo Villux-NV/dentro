@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import './member.css';
 import MemberStart from './member-start-card';
 import MemberChildren from './member-card-children';
+import { AuthContext } from './auth';
 
 const Members = () => {
   const [members, setMembers] = useState([]);
@@ -12,6 +13,8 @@ const Members = () => {
 
   const [memberId, setMemberId] = useState('');
   const [value, setValue] = useState('');
+
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     async function getMembers () {

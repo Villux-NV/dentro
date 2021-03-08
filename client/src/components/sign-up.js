@@ -33,12 +33,12 @@ const SignUp = ({ history }) => {
         <Form onSubmit={handleSignUp}>
           <Form.Group controlId='formEmail'>
             <Form.Label>Email</Form.Label>
-            <Form.Control name='email' type='email'/>
+            <Form.Control name='email' type='email' autoComplete='email' />
           </Form.Group>
 
           <Form.Group controlId='formPassword'>
             <Form.Label>Password</Form.Label>
-            <Form.Control name='password' type='password'/>
+            <Form.Control name='password' type='password' autoComplete='new-password' />
           </Form.Group>
 
           <Button variant='outline-primary' size='sm' type='submit' value='Submit'>

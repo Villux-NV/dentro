@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './App.css';
 import MainContent from './components/main-content';
@@ -17,8 +17,8 @@ const App = () => {
           <TopNavigation />
 
           <div className='d-flex justify-content-center'>
-            {/* <PrivateRoute exact path='/' component={MainContent} /> */}
-            <Route exact path='/' component={MainContent} />
+            <PrivateRoute exact path='/' component={MainContent} />
+            {/* <Route exact path='/' component={MainContent} /> */}
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={SignUp} />
           </div>

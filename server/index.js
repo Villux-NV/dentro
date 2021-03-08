@@ -11,6 +11,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+db.sync();
 app.use('/', router);
 
 app.get('*', (req, res) => {
@@ -20,7 +21,6 @@ app.get('*', (req, res) => {
 
 try {
   db.authenticate();
-  db.sync();
   console.log('DB Connected!');
 } catch (err) {
   console.log(`Unable to connect ${err}`);

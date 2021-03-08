@@ -6,7 +6,6 @@ const MemberChildren = ({ member, index, handleSubmit, handleChangeFirstName, ha
   const nestedMembers = (member.Children || []).map((member) => {
     return (
         <MemberChildren
-          key={member.id+member.firstName}
           member={member}
           handleSubmit={handleSubmit}
           handleChangeFirstName={handleChangeFirstName}

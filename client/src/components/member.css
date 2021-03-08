@@ -8,6 +8,28 @@
   display: none;
 }
 
+.form__container {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+.form__container p {
+  font-size: 12px;
+}
+
+.form {
+  background: white;
+  border: 1px solid skyblue;
+  padding: 20px;
+  width: 200px;
+  height: 320px;
+}
+
+.form__container__initial Button {
+  width: 100%;
+}
+
 .family__groups {
   border: 1px solid red;
 }

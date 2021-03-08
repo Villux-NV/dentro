@@ -1,10 +1,62 @@
-const Login = () => {
+import { useCallback, useContext } from 'react';
+import { Form, Button } from 'react-bootstrap';
+
+import Firebase from '../firebase';
+import { AuthContext } from './auth';
+
+import { motion } from 'framer-motion';
+import { Redirect, withRouter } from 'react-router';
+
+const Login = ({ history }) => {
+  const handleLogin = useCallback(
+    async e => {
+      e.preventDefault();
+      const { email, password } = e.target.elements;
+
+      try {
+        await Firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+        history.push('/');
+      } catch (err) {
+        console.log({ errorInSignUp: err});
+      }
+    }, [history]
+  );
+
+  const { currentUser } = useContext(AuthContext);
+
+  if (currentUser) {
+    return <Redirect to='/' />;
+  };
 
   return (
-    <div>
-      <h2>Login</h2>
-    </div>
+    <motion.div className='form__container' layout>
+      <motion.div
+        layout
+        className='form'
+        animate={{ scale: 1.2, borderRadius: 10 }}
+        initial={{ borderRadius: 20 }}
+        transition={{ duration: .6 }}
+      >
+        <h4 className='d-flex justify-content-center'>Login</h4>
+        <Form className='form__container__initial'>
+            <Form.Group controlId='formEmail'>
+              <Form.Label>Email</Form.Label>
+              <Form.Control name='email' type='email'/>
+            </Form.Group>
+
+            <Form.Group controlId='formPassword'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control name='password' type='password'/>
+            </Form.Group>
+
+            <Button variant='outline-primary' size='sm' type='submit' value='Submit'>
+              Submit
+            </Button>
+          </Form>
+
+      </motion.div>
+    </motion.div>
   )
 }
 
-export default Login;
+export default withRouter(Login);

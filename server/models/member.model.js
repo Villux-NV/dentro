@@ -40,12 +40,12 @@ const Family = db.define('Family', {
 
 Member.belongsToMany(Member, { 
   as: 'Children', 
-  through: 'MemberChildren'
+  through: 'MemberChildren',
 });
 
 Member.belongsToMany(Member, { 
   as: 'Parent', 
-  through: 'MemberParent'
+  through: 'MemberParent',
 });
 
 User.hasMany(Member);

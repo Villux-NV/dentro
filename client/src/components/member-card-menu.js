@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { useState } from 'react';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { FaEllipsisH } from 'react-icons/fa';
 
 import ModalCard from './member-card-modal';

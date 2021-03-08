@@ -12,10 +12,17 @@ const getTree = async () => {
       }],
     });
 
+    if (members.length === 0) {
+      return false;
+    }
+
     const rootFilter = members.map(doc => doc.toJSON()).filter(member => {
       return member.Parent.length === 0;
     })
-    return await recursiveFind(rootFilter[0].Children.length === 0 ? rootFilter[1] : rootFilter[0]);
+
+    // need to refactor when parent is added to root
+    //.Children.length === 0 ? rootFilter[1] : rootFilter[0]
+    return await recursiveFind(rootFilter[0]);
   } catch (err) {
     console.log(`Error Get Tree: ${err}`);
     return { error: 'DB Connection: Get Tree'};

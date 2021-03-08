@@ -66,7 +66,7 @@ const ModalCard = ({ value, onHide, handleSubmit, handleChangeFirstName, handleC
           </div>
         </Modal.Body>
         <Modal.Footer className='dflex justify-content-center'>
-          This will delete all attached children!
+          This will disconnect all children!
         </Modal.Footer>
       </Modal>
     </div>

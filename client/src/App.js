@@ -1,24 +1,28 @@
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import './App.css';
 import MainContent from './components/main-content';
 import TopNavigation from './components/top-navigation';
+import Login from './components/login';
+import { AuthProvider } from './components/auth';
+import PrivateRoute from './private-route';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <div className='app-container'>
-        <TopNavigation />
+    <AuthProvider>
+      <Router>
+        <div className='app-container'>
+          <TopNavigation />
 
-        <div>
-          <Switch>
-            <Route path='/'>
-              <MainContent />
-            </Route>
-          </Switch>
+          <div>
+            {/* <PrivateRoute exact path='/' component={MainContent} /> */}
+            <Route exact path='/' component={MainContent} />
+            <Route exact path='/login' component={Login} />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
 

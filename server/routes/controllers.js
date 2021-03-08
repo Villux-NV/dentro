@@ -4,6 +4,7 @@ const { getTree, getMembers, getMemberById, createMember, createChild, createPar
 exports.getTreeCtrl = async (req, res) => {
   try {
     const members = await getTree();
+    if (members === false) return res.status(400).send(false);
     res.status(200).json(members);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Tree', status: 500 });

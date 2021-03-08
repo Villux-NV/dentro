@@ -1,10 +1,9 @@
 import MemberCard from './member-card';
 
-function MainContent () {
+const MainContent = () => {
 
   return (
     <div className='main__container'>
-      <h2 className='d-flex justify-content-center'>Family Tree</h2>
       <MemberCard />
     </div>
   )

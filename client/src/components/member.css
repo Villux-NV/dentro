@@ -1,3 +1,13 @@
+.main__container {
+  overflow: scroll;
+  scrollbar-width: none;
+  min-height: 90vh;
+}
+
+.main__container::-webkit-scrollbar {
+  display: none;
+}
+
 .family__groups {
   border: 1px solid red;
 }
@@ -43,6 +53,10 @@ div.family__members__button {
   top: 0;
   right: 6px;
   outline: none;
+}
+
+div.family__members__button > Dropdown.Item {
+  z-index: 2;
 }
 
 #dropdown-basic-button {

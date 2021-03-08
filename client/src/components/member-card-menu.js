@@ -4,24 +4,27 @@ import { FaEllipsisH } from 'react-icons/fa';
 
 import ModalCard from './member-card-modal';
 
-const MemberCardMenu = ({ member, onSubmit, handleChangeFirstName, handleChangeLastName, firstName, lastName, addMemberId, handleDelete }) => {
-  const [modalShowAdd, setModalShowAdd] = useState(false);
-  const [modalShowEdit, setModalShowEdit] = useState(false);
+const MemberCardMenu = ({ member, handleSubmit, handleChangeFirstName, handleChangeLastName, handleValue, handleDelete, firstName, lastName, addMemberId, value }) => {
+  const [modalShow, setModalShow] = useState(false);
   const [modalShowDelete, setModalShowDelete] = useState(false);
 
-  const onClickAdd = () => {
-    setModalShowAdd(true);
+  const onClick = (val) => {
+    setModalShow(true);
     addMemberId(member.id);
-  }
 
-  const onClickEdit = () => {
-    setModalShowEdit(true);
-  }
+    if (val === 'Child') {
+      handleValue('Child');
+    } else if (val === 'Parent') {
+      handleValue('Parent');
+    } else {
+      handleValue('Edit');
+    }
+  };
 
   const onClickDelete = () => {
     setModalShowDelete(true);
     addMemberId(member.id);
-  }
+  };
 
   return (
     <DropdownButton
@@ -31,24 +34,23 @@ const MemberCardMenu = ({ member, onSubmit, handleChangeFirstName, handleChangeL
       variant='lig'
       drop='right'
     >
-      <Dropdown.Item type='button' onClick={onClickAdd}>Add Child</Dropdown.Item>
-      <Dropdown.Item type='button' onClick={onClickEdit}>Edit Information</Dropdown.Item>
+      <Dropdown.Item type='button' onClick={() => onClick('Child')}>Add Child</Dropdown.Item>
+      { member.Parent < 1 &&
+        <Dropdown.Item type='button' onClick={() => onClick('Parent')}>Add Parent</Dropdown.Item>
+      }
+      <Dropdown.Item type='button' onClick={() => onClick('Edit')}>Edit Information</Dropdown.Item>
       <Dropdown.Item type='button' onClick={onClickDelete}>Delete Member</Dropdown.Item>
       <ModalCard
-        showAdd={modalShowAdd}
-        onHide={() => setModalShowAdd(false)}
+        showAdd={modalShow}
+        onHide={() => setModalShow(false)}
         member={member}
-        onSubmit={onSubmit}
+        value={value}
+        handleSubmit={handleSubmit}
         handleChangeFirstName={handleChangeFirstName}
         handleChangeLastName={handleChangeLastName}
         firstName={firstName}
         lastName={lastName}
         addMemberId={addMemberId}
-      />
-      <ModalCard
-        showEdit={modalShowEdit}
-        onHide={() => setModalShowEdit(false)}
-        member={member}
       />
       <ModalCard
         showDelete={modalShowDelete}

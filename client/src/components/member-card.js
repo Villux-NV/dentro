@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 import './member.css';
 import MemberChildren from './member-card-children';
@@ -9,7 +9,9 @@ const Members = () => {
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+
   const [memberId, setMemberId] = useState('');
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     async function getMembers () {
@@ -23,20 +25,24 @@ const Members = () => {
 
   const handleChangeFirstName = (e) => {
     setFirstName(e.target.value);
-  }
+  };
   
   const handleChangeLastName = (e) => {
     setLastName(e.target.value);
-  }
+  };
 
   const handleMemberId = (id) => {
     setMemberId(id);
-  }
+  };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const handleValue = (val) => {
+    setValue(val);
+  };
 
-    const init = {
+  const handleSubmit = (e) => {
+    e.preventDefault(e);
+
+    const initPost = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,54 +50,66 @@ const Members = () => {
       body: JSON.stringify({ firstName, lastName })
     }
 
-    fetch(`http://localhost:3500/create/${memberId}`, init)
-      .then(res => res.json())
-      .then(data => setMembers(members.concat(data)));
+    const initPut = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ firstName, lastName })
+    }
+
+    if (value === 'Child') {
+      fetch(`http://localhost:3500/create/child/${memberId}`, initPost)
+        .then(res => res.json())
+        .then(data => setMembers(members.concat(data)));
+    } else if (value === 'Parent') {
+      fetch(`http://localhost:3500/create/parent/${memberId}`, initPost)
+        .then(res => res.json())
+        .then(data => setMembers(members.concat(data)));
+    } else {
+      fetch(`http://localhost:3500/edit/${memberId}`, initPut)
+        .then(res => res.json())
+        .then(data => members.filter((member) => member.id === data.id).concat(data));
+    }
 
     setFirstName('');
     setLastName('');
-  }
+  };
 
   const handleDelete = (e) => {
     // e.preventDefault();
 
-    console.log('Deleted!');
-
-    const init = {
-      method: 'DELETE',
-    }
-
-    fetch(`http://localhost:3500/delete/${memberId}`, init)
+    fetch(`http://localhost:3500/delete/${memberId}`, { method: 'DELETE'})
       .then(res => res.json())
       .then(() => setMembers(members.filter(member => member.id !== memberId)));
-  }
+  };
 
   return (
     <div>
       { 
         members.map((member, index) => {
           return (
-            <motion.div key={index} className='family__container'>
+            <div key={index} className='family__container'>
               <MemberChildren
                 key={member.id+index}
                 member={member}
                 index={index}
-                onSubmit={onSubmit}
+                handleSubmit={handleSubmit}
                 handleChangeFirstName={handleChangeFirstName}
                 handleChangeLastName={handleChangeLastName}
+                handleValue={handleValue}
+                handleDelete={handleDelete}
                 firstName={firstName}
                 lastName={lastName}
                 addMemberId={handleMemberId.bind(this)}
-                handleDelete={handleDelete}
+                value={value}
               />
-            </motion.div>
+            </div>
           )
         })
       }
     </div>
   )
-}
+};
 
 export default Members;
-
-// style={{ 'marginLeft': '25px', 'marginTop': '10px' }}

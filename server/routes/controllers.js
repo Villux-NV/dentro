@@ -1,10 +1,9 @@
 const { default: validator } = require('validator');
-const { getTree, getMembers, getMemberById, createMember, createChild, createConnectionByIds, deleteMemberById } = require('../models/crud');
+const { getTree, getMembers, getMemberById, createMember, createChild, createParent, createConnectionByIds, editMember, deleteMemberById } = require('../models/crud');
 
 exports.getTreeCtrl = async (req, res) => {
   try {
     const members = await getTree();
-
     res.status(200).json(members);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Tree', status: 500 });
@@ -14,7 +13,6 @@ exports.getTreeCtrl = async (req, res) => {
 exports.getMembersCtrl = async (req, res) => {
   try {
     const members = await getMembers();
-
     res.status(200).json(members);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Get', status: 500 });
@@ -23,23 +21,13 @@ exports.getMembersCtrl = async (req, res) => {
 
 exports.getMemberByIdCtrl = async (req, res) => {
   const { primaryId } = req.params;
-  const member = await getMemberById(primaryId);
 
-  res.status(200).json(member);
-};
-
-exports.getParentByChildIdCtrl = async (req, res) => {
-  const { primaryId } = req.params;
-  const member = await getMemberById(primaryId);
-
-  res.status(200).json(member.Parent);
-}
-
-exports.getChildrenByParentIdCtrl = async (req, res) => {
-  const { primaryId } = req.params;
-  const member = await getMemberById(primaryId);
-
-  res.status(200).json(member.Children);
+  try {
+    const member = await getMemberById(primaryId);
+    res.status(200).json(member);
+  } catch (err) {
+    res.status(500).json({ error: 'Error Ctrl GetById', status: 500 });
+  }
 };
 
 exports.createMemberCtrl = async (req, res) => {
@@ -76,13 +64,27 @@ exports.createChildCtrl = async (req, res) => {
       // email,
       // password,
       // birthday
-    })
-
-    const creation = await createChild(primaryId, member);
-
-    res.status(200).json(creation);
+    });
+    const child = await createChild(primaryId, member);
+    res.status(200).json(child);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Child', status: 500 });
+  }
+};
+
+exports.createParentCtrl = async (req, res) => {
+  const { firstName, lastName } = req.body;
+  const { primaryId } = req.params;
+
+  try {
+    const member = await createMember({
+      firstName,
+      lastName,
+    });
+    const parent = await createParent(primaryId, member);
+    res.status(200).json(parent);
+  } catch (err) {
+    res.status(500).json({ error: 'Error Ctrl Parent', status: 500 });
   }
 };
 
@@ -91,10 +93,21 @@ exports.addConnectionCtrl = async (req, res) => {
   
   try {
     const memberAdd = await createConnectionByIds(parentId, childId);
-
     res.status(200).json(memberAdd);
   } catch (err) {
-    res.status(500).json({ error: 'Error Ctrl Child Add', status: 500 });
+    res.status(500).json({ error: 'Error Ctrl Connection', status: 500 });
+  }
+};
+
+exports.editMemberCtrl = async (req, res) => {
+  const { firstName, lastName } = req.body;
+  const { primaryId } = req.params;
+
+  try {
+    const member = await editMember(primaryId, firstName, lastName);
+    res.status(200).json(member);
+  } catch (err) {
+    res.status(500).json({ error: 'Error Ctrl Edit', status: 500 });
   }
 };
 
@@ -103,9 +116,8 @@ exports.deleteMemberByIdCtrl = async (req, res) => {
 
   try {
     const deletedMember = await deleteMemberById(primaryId);
-
     res.status(200).json(deletedMember);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Delete', status: 500 });
   }
-}
+};

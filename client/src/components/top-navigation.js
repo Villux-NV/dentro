@@ -7,7 +7,8 @@ function TopNavigation () {
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       <Navbar.Collapse id='responsive-navbar-nav' className='justify-content-end'>
         <Nav>
-          <Nav.Link href='#'>Features</Nav.Link>
+          <Nav.Link href='#'>Tree</Nav.Link>
+          <Nav.Link href='#'>Calendar</Nav.Link>
           <NavDropdown title='Profile' id='collapsible-nav-dropdown'>
             <NavDropdown.Item href='#'>Details</NavDropdown.Item>
             <NavDropdown.Item href='#'>Family</NavDropdown.Item>

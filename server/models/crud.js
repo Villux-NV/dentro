@@ -15,13 +15,12 @@ const getTree = async () => {
     const rootFilter = members.map(doc => doc.toJSON()).filter(member => {
       return member.Parent.length === 0;
     })
-
-    return await recursiveFind(rootFilter[0]);
+    return await recursiveFind(rootFilter[0].Children.length === 0 ? rootFilter[1] : rootFilter[0]);
   } catch (err) {
     console.log(`Error Get Tree: ${err}`);
     return { error: 'DB Connection: Get Tree'};
   }
-}
+};
 
 const recursiveFind = async (member) => {
   if (!member.Children?.length) return member;
@@ -29,12 +28,11 @@ const recursiveFind = async (member) => {
   const allMembers = member.Children?.map(async child => {
     const id = child.id;
     const memberFound = await getMemberById(id);
-
     return await recursiveFind(memberFound);
   });
 
   return { ...member, Children: await Promise.all(allMembers) };
-}
+};
 
 const getMembers = async () => {
   try {
@@ -48,7 +46,6 @@ const getMembers = async () => {
       }],
       attributes: { exclude: ['password'] },
     });
-
     return members;
   } catch (err) {
     console.log(`Error Get Members: ${err}`);
@@ -65,13 +62,12 @@ const getMemberById = async (primaryId) => {
         as: 'Children'
       }]
     });
-
     return member.toJSON();
   } catch (err) {
     console.log(`Error Get Member by Id: ${err}`);
     return { error: 'DB Connection: Get Member by Id'}
   }
-}
+};
 
 const createMember = async ({
   firstName,
@@ -109,6 +105,20 @@ const createChild = async (parentId, child) => {
   }
 };
 
+const createParent = async (childId, parent) => {
+  try {
+    const memberChild = await Member.findOne({ where: { id: childId } });
+
+    await memberChild.addParent(parent);
+    await parent.addChildren(memberChild);
+
+    return parent;
+  } catch (err) {
+    console.log(`Error Create Parent: ${err}`);
+    return { error: 'DB Connection: Create Parent'};
+  }
+};
+
 const createConnectionByIds = async (parent, child) => {
   try {
     const memberParent = await Member.findOne({ where: { id: parent } });
@@ -122,18 +132,27 @@ const createConnectionByIds = async (parent, child) => {
     console.log(`Error Create Connection: ${err}`);
     return { error: 'DB Connection: Create Connection'};
   }
-}
+};
+
+const editMember = async (memberId, firstName, lastName) => {
+  try {
+    const member = await Member.update({ firstName, lastName}, { where: { id: memberId } });
+    return member;
+  } catch (err) {
+    console.log(`Error Edit Member: ${err}`);
+    return { error: 'DB Connection: Edit Member'};
+  }
+};
 
 const deleteMemberById = async (memberId) => {
   try {
     const deletedMember = await Member.destroy({ where: { id: memberId } });
-
-    return deleteMember;
+    return deletedMember;
   } catch (err) {
-    console.log(`Error Create Connection: ${err}`);
+    console.log(`Error Delete Member: ${err}`);
     return { error: 'DB Connection: Delete Member'};
   }
-}
+};
 
 module.exports = {
   getTree,
@@ -141,6 +160,8 @@ module.exports = {
   getMemberById,
   createMember,
   createChild,
+  createParent,
   createConnectionByIds,
+  editMember,
   deleteMemberById,
 };

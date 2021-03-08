@@ -10,20 +10,33 @@ const Member = db.define('Member', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  email: {
-    type: DataTypes.STRING,
-    // allowNull: false
-  },
-  password: {
-    type: DataTypes.STRING,
-    // allowNull: false
-  },
   birthday: {
     type: DataTypes.DATE,
-    // allowNull: false
   },
 });
 
+const User = db.define('User', {
+  uid: {
+    primaryKey: true,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+})
+
+const Family = db.define('Family', {
+  familyName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+})
 
 Member.belongsToMany(Member, { 
   as: 'Children', 
@@ -35,9 +48,16 @@ Member.belongsToMany(Member, {
   through: 'MemberParent'
 });
 
+User.hasMany(Member);
+Member.belongsTo(User);
+
+Family.hasMany(Member);
+Member.belongsTo(Family);
 
 module.exports = {
   Member,
+  User,
+  Family,
 };
 
 // const testCreation = async () => {

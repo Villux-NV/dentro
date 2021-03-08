@@ -1,9 +1,9 @@
 .app-container {
   background-color: bisque;
   min-height: 100vh;
-  overflow: scroll;
 }
 
 .navigation {
   display: flex;
+  min-height: 10vh;
 }

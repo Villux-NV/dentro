@@ -1,10 +1,10 @@
 const { Member, Family, User } = require('./member.model')
 
-const getTree = async (familyNameId) => {
+const getTree = async (familyId) => {
   try {
     let members = await Member.findAll({
       where: {
-        FamilyId: familyNameId
+        FamilyId: familyId
       },
       include: [{
         model: Member,
@@ -76,7 +76,7 @@ const createMember = async ({
   lastName,
   birthday,
   userId,
-  familyId,
+  familyNameId,
 }) => {
   try {
     // not needed for creating members in tree, will need for auth
@@ -85,8 +85,8 @@ const createMember = async ({
     let family;
     let user = await User.findOne({ where: { uid: userId } });
     
-    if (familyId) {
-      family = await Family.findOne({ where: { id: familyId } });
+    if (familyNameId) {
+      family = await Family.findOne({ where: { id: familyNameId } });
     } else {
       family = await Family.create({ familyName: lastName, UserId: user.id });
     }

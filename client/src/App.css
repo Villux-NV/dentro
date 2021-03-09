@@ -2,8 +2,3 @@
   background-color: bisque;
   min-height: 100vh;
 }
-
-.navigation {
-  display: flex;
-  min-height: 10vh;
-}

@@ -4,7 +4,7 @@ const { getTreeCtrl, getMembersCtrl, getMemberByIdCtrl, getFamiliesCtrl, createM
 const router = Router();
 
 
-router.get('/membertree/:familyNameId', getTreeCtrl);
+router.get('/membertree/:familyId', getTreeCtrl);
 router.get('/members', getMembersCtrl);
 router.get('/members/:primaryId', getMemberByIdCtrl);
 router.get('/families/:userId', getFamiliesCtrl);

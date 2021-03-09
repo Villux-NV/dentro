@@ -6,6 +6,8 @@ import MemberChildren from './member-card-children';
 import { AuthContext } from './auth';
 
 const MemberCard = ({ members, getMembers, familyNameId }) => {
+  const BASE_URL = 'http://localhost:3500/';
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [birthday, setBirthday] = useState(new Date());
@@ -56,21 +58,21 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
     }
 
     if (value === 'Child') {
-      fetch(`http://localhost:3500/create/child/${memberId}/${userId}`, initPost)
+      fetch(`${BASE_URL}create/child/${memberId}/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => getMembers());
+        .then(data => getMembers(familyNameId));
     } else if (value === 'Parent') {
-      fetch(`http://localhost:3500/create/parent/${memberId}/${userId}`, initPost)
+      fetch(`${BASE_URL}create/parent/${memberId}/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => getMembers());
+        .then(data => getMembers(familyNameId));
     } else if (value === 'Edit') {
-      fetch(`http://localhost:3500/edit/${memberId}`, initPut)
+      fetch(`${BASE_URL}edit/${memberId}`, initPut)
         .then(res => res.json())
-        .then(data => getMembers());
+        .then(data => getMembers(familyNameId));
     } else if (value === 'Start') {
-      fetch(`http://localhost:3500/create/${userId}`, initPost)
+      fetch(`${BASE_URL}create/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => getMembers());
+        .then(data => getMembers(familyNameId));
     }
 
     setFirstName('');
@@ -79,13 +81,14 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
   };
 
   const handleDelete = (e) => {
-    fetch(`http://localhost:3500/delete/${memberId}`, { method: 'DELETE'})
+    fetch(`${BASE_URL}delete/${memberId}`, { method: 'DELETE'})
       .then(res => res.json())
-      .then(() => getMembers());
+      .then(() => getMembers(familyNameId));
   };
 
   return (
     <div>
+      {console.log((!members), 'anything on startup?')}
       <div>
         { !members &&
           <div>

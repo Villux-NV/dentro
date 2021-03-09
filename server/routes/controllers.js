@@ -2,10 +2,10 @@ const { default: validator } = require('validator');
 const { getTree, getMembers, getMemberById, getFamilies, createMember, createChild, createParent, createConnectionByIds, editMember, deleteMemberById } = require('../models/crud');
 
 exports.getTreeCtrl = async (req, res) => {
-  const { familyNameId } = req.params;
+  const { familyId } = req.params;
 
   try {
-    const members = await getTree(familyNameId);
+    const members = await getTree(familyId);
     if (members === false) return res.status(400).send(false);
     res.status(200).json(members);
   } catch (err) {
@@ -46,7 +46,7 @@ exports.getFamiliesCtrl = async (req, res) => {
 };
 
 exports.createMemberCtrl = async (req, res) => {
-  const { firstName, lastName, birthday, familyId } = req.body;
+  const { firstName, lastName, birthday, familyNameId } = req.body;
   const { userId } = req.params;
 
   // if (!firstName || !lastName || !email || !birthday) return res.status(400).json({ error: 'Bad request', status: 400});
@@ -57,7 +57,7 @@ exports.createMemberCtrl = async (req, res) => {
       firstName,
       lastName,
       birthday,
-      familyId,
+      familyNameId,
       userId,
     });
 
@@ -68,7 +68,7 @@ exports.createMemberCtrl = async (req, res) => {
 };
 
 exports.createChildCtrl = async (req, res) => {
-  const { firstName, lastName, birthday } = req.body;
+  const { firstName, lastName, birthday, familyNameId } = req.body;
   const { primaryId, userId } = req.params;
 
   try {
@@ -76,6 +76,7 @@ exports.createChildCtrl = async (req, res) => {
       firstName,
       lastName,
       birthday,
+      familyNameId,
       userId
     });
     const child = await createChild(primaryId, member);
@@ -86,7 +87,7 @@ exports.createChildCtrl = async (req, res) => {
 };
 
 exports.createParentCtrl = async (req, res) => {
-  const { firstName, lastName, birthday } = req.body;
+  const { firstName, lastName, birthday, familyNameId } = req.body;
   const { primaryId, userId } = req.params;
 
   try {
@@ -94,6 +95,7 @@ exports.createParentCtrl = async (req, res) => {
       firstName,
       lastName,
       birthday,
+      familyNameId,
       userId
     });
     const parent = await createParent(primaryId, member);

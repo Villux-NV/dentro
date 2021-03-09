@@ -4,10 +4,11 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { AuthContext } from './auth';
 import Firebase from '../firebase';
 
-const TopNavigation = ({ handleFamilies, handleFamilyNameId, handleUser, families }) => {
-  const { currentUser } = useContext(AuthContext);
+const TopNavigation = ({ handleFamilies, handleFamilyNameId, families }) => {
+  let userId, display;
   
-  let userId;
+  const { currentUser } = useContext(AuthContext);
+
   if (currentUser) {
     userId = currentUser.uid;
   };
@@ -20,16 +21,9 @@ const TopNavigation = ({ handleFamilies, handleFamilyNameId, handleUser, familie
 
   useEffect(() => getFamilies(), []);
 
-  const handleClick = (id) => {
-    handleFamilyNameId(id);
-  };
-
-  let display;
-
   const displayName = () => {
     if (currentUser) {
       display = currentUser.displayName;
-      handleUser(userId);
     }
     return <>: {display}</>
   };
@@ -46,7 +40,7 @@ const TopNavigation = ({ handleFamilies, handleFamilyNameId, handleUser, familie
                   { 
                     families.map(family => {
                       return (
-                        <NavDropdown.Item onClick={() => handleClick(family.id)} >{family.familyName}</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => handleFamilyNameId(family.id)} >{family.familyName}</NavDropdown.Item>
                       )
                     })
                   }

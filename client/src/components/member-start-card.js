@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa';
 
-const MemberStart = ({ handleSubmit, handleChangeFirstName, handleChangeLastName, handleValue, firstName, lastName }) => {
+const MemberStart = ({ handleSubmit, handleFirstName, handleLastName, handleBirthday, handleValue, firstName, lastName, birthday }) => {
   const [modalShow, setModalShow] = useState(false);
 
   const handleClick = () => {
@@ -36,15 +36,20 @@ const MemberStart = ({ handleSubmit, handleChangeFirstName, handleChangeLastName
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form className='form__container' onSubmit={handleSubmit}>
+              <Form className='form__container__modal' onSubmit={handleSubmit}>
                 <Form.Group controlId='formFirstName'>
                   <Form.Label>First Name</Form.Label>
-                  <Form.Control type='text' onChange={handleChangeFirstName} value={firstName} />
+                  <Form.Control type='text' value={firstName} onChange={handleFirstName} />
                 </Form.Group>
 
                 <Form.Group controlId='formLastName'>
                   <Form.Label>Last Name</Form.Label>
-                  <Form.Control type='text' onChange={handleChangeLastName} value={lastName} />
+                  <Form.Control type='text' value={lastName} onChange={handleLastName} />
+                </Form.Group>
+
+                <Form.Group controlId='formBirthday'>
+                  <Form.Label>Birthday</Form.Label>
+                  <Form.Control type='date' value={birthday} onChange={handleBirthday} placeholder='MM-DD' />
                 </Form.Group>
 
                 <Button variant='outline-dark' size='sm' type='submit' value='Submit' onClick={() => setModalShow(false)}>

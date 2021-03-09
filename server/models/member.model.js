@@ -11,32 +11,22 @@ const Member = db.define('Member', {
     allowNull: false
   },
   birthday: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
   },
 });
 
 const User = db.define('User', {
   uid: {
-    primaryKey: true,
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4
-  },
-  email: {
     type: DataTypes.STRING,
-    allowNull: false
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
-})
+});
 
 const Family = db.define('Family', {
   familyName: {
     type: DataTypes.STRING,
     allowNull: false
   }
-})
+});
 
 Member.belongsToMany(Member, { 
   as: 'Children', 
@@ -48,8 +38,8 @@ Member.belongsToMany(Member, {
   through: 'MemberParent',
 });
 
-User.hasMany(Member);
-Member.belongsTo(User);
+User.hasMany(Family);
+Family.belongsTo(User);
 
 Family.hasMany(Member);
 Member.belongsTo(Family);

@@ -1,43 +1,31 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import './member.css';
 import MemberStart from './member-start-card';
 import MemberChildren from './member-card-children';
 import { AuthContext } from './auth';
 
-const Members = () => {
-  const [members, setMembers] = useState([]);
-
+const MemberCard = ({ members, getMembers, familyNameId }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [birthday, setBirthday] = useState(new Date());
 
   const [memberId, setMemberId] = useState('');
   const [value, setValue] = useState('');
 
   const { currentUser } = useContext(AuthContext);
+  const userId = currentUser.uid;
 
-  useEffect(() => {
-    async function getMembers () {
-      await fetch('http://localhost:3500/membertree')
-      .then(res => res.json())
-      .then(data => {
-        if (data === false) {
-          return;
-        } else {
-          setMembers([data]);
-        }
-      });
-    }
-
-    getMembers();
-  }, []);
-
-  const handleChangeFirstName = (e) => {
+  const handleFirstName = (e) => {
     setFirstName(e.target.value);
   };
   
-  const handleChangeLastName = (e) => {
+  const handleLastName = (e) => {
     setLastName(e.target.value);
+  };
+  
+  const handleBirthday = (e) => {
+    setBirthday(e.target.value);
   };
 
   const handleMemberId = (id) => {
@@ -56,7 +44,7 @@ const Members = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ firstName, lastName })
+      body: JSON.stringify({ firstName, lastName, birthday, familyNameId })
     }
 
     const initPut = {
@@ -64,52 +52,53 @@ const Members = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ firstName, lastName })
+      body: JSON.stringify({ firstName, lastName, birthday })
     }
 
     if (value === 'Child') {
-      fetch(`http://localhost:3500/create/child/${memberId}`, initPost)
+      fetch(`http://localhost:3500/create/child/${memberId}/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => setMembers(members.concat(data)));
+        .then(data => getMembers());
     } else if (value === 'Parent') {
-      fetch(`http://localhost:3500/create/parent/${memberId}`, initPost)
+      fetch(`http://localhost:3500/create/parent/${memberId}/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => setMembers(members.concat(data)));
+        .then(data => getMembers());
     } else if (value === 'Edit') {
       fetch(`http://localhost:3500/edit/${memberId}`, initPut)
         .then(res => res.json())
-        .then(data => members.filter((member) => member.id === data.id).concat(data));
+        .then(data => getMembers());
     } else if (value === 'Start') {
-      fetch(`http://localhost:3500/create`, initPost)
+      fetch(`http://localhost:3500/create/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => setMembers([data]));
+        .then(data => getMembers());
     }
 
     setFirstName('');
     setLastName('');
+    setBirthday('');
   };
 
   const handleDelete = (e) => {
-    // e.preventDefault();
-
     fetch(`http://localhost:3500/delete/${memberId}`, { method: 'DELETE'})
       .then(res => res.json())
-      .then(() => setMembers(members.filter(member => member.id !== memberId)));
+      .then(() => getMembers());
   };
 
   return (
     <div>
       <div>
-        { members.length === 0 &&
+        { !members &&
           <div>
             <h2 className='d-flex justify-content-center'>Start Your Tree!</h2> 
             <MemberStart
               handleSubmit={handleSubmit}
-              handleChangeFirstName={handleChangeFirstName}
-              handleChangeLastName={handleChangeLastName}
+              handleFirstName={handleFirstName}
+              handleLastName={handleLastName}
+              handleBirthday={handleBirthday}
               handleValue={handleValue}
               firstName={firstName}
               lastName={lastName}
+              birthday={birthday}
             />
           </div>
         }
@@ -122,12 +111,14 @@ const Members = () => {
                   member={member}
                   index={index}
                   handleSubmit={handleSubmit}
-                  handleChangeFirstName={handleChangeFirstName}
-                  handleChangeLastName={handleChangeLastName}
+                  handleFirstName={handleFirstName}
+                  handleLastName={handleLastName}
+                  handleBirthday={handleBirthday}
                   handleValue={handleValue}
                   handleDelete={handleDelete}
                   firstName={firstName}
                   lastName={lastName}
+                  birthday={birthday}
                   addMemberId={handleMemberId.bind(this)}
                   value={value}
                 />
@@ -140,4 +131,4 @@ const Members = () => {
   )
 };
 
-export default Members;
+export default MemberCard;

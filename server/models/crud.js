@@ -1,8 +1,11 @@
-const { Member } = require('./member.model')
+const { Member, Family, User } = require('./member.model')
 
-const getTree = async () => {
+const getTree = async (familyNameId) => {
   try {
     let members = await Member.findAll({
+      where: {
+        FamilyId: familyNameId
+      },
       include: [{
         model: Member,
         as: 'Parent'
@@ -20,8 +23,6 @@ const getTree = async () => {
       return member.Parent.length === 0;
     })
 
-    // need to refactor when parent is added to root
-    //.Children.length === 0 ? rootFilter[1] : rootFilter[0]
     return await recursiveFind(rootFilter[0]);
   } catch (err) {
     console.log(`Error Get Tree: ${err}`);
@@ -41,25 +42,6 @@ const recursiveFind = async (member) => {
   return { ...member, Children: await Promise.all(allMembers) };
 };
 
-const getMembers = async () => {
-  try {
-    let members = await Member.findAll({
-      include: [{
-        model: Member,
-        as: 'Children',
-      },{
-        model: Member,
-        as: 'Parent'
-      }],
-      attributes: { exclude: ['password'] },
-    });
-    return members;
-  } catch (err) {
-    console.log(`Error Get Members: ${err}`);
-    return { error: 'DB Connection: Get Members'};
-  }
-};
-
 const getMemberById = async (primaryId) => {
   try {
     let member = await Member.findOne({
@@ -76,20 +58,45 @@ const getMemberById = async (primaryId) => {
   }
 };
 
+const getFamilies = async (userId) => {
+  try {
+    const user = await User.findOne({ where: { uid: userId } });
+    const families = await Family.findAll({
+      where: { UserId: user.id }
+    })
+    return families;
+  } catch (err) {
+    console.log(`Error Get Families: ${err}`);
+    return { error: 'DB Connection: Get Families'};
+  }
+};
+
 const createMember = async ({
   firstName,
   lastName,
-  // email,
-  // password,
-  // birthday,
+  birthday,
+  userId,
+  familyId,
 }) => {
   try {
     // not needed for creating members in tree, will need for auth
     // let member = await Member.findOne({ where: { firstName } });
     // if (member) return false;
+    let family;
+    let user = await User.findOne({ where: { uid: userId } });
     
-    // email, password, birthday
-    member = await Member.create({ firstName, lastName });
+    if (familyId) {
+      family = await Family.findOne({ where: { id: familyId } });
+    } else {
+      family = await Family.create({ familyName: lastName, UserId: user.id });
+    }
+
+    if (!user) {
+      user = await User.create({ uid: userId });
+    }
+
+    
+    const member = await Member.create({ firstName, lastName, birthday, FamilyId: family.id });
 
     return member;
   } catch (err) {
@@ -141,9 +148,9 @@ const createConnectionByIds = async (parent, child) => {
   }
 };
 
-const editMember = async (memberId, firstName, lastName) => {
+const editMember = async (memberId, firstName, lastName, birthday) => {
   try {
-    const member = await Member.update({ firstName, lastName}, { where: { id: memberId } });
+    const member = await Member.update({ firstName, lastName, birthday }, { where: { id: memberId } });
     return member;
   } catch (err) {
     console.log(`Error Edit Member: ${err}`);
@@ -163,8 +170,8 @@ const deleteMemberById = async (memberId) => {
 
 module.exports = {
   getTree,
-  getMembers,
   getMemberById,
+  getFamilies,
   createMember,
   createChild,
   createParent,
@@ -172,3 +179,23 @@ module.exports = {
   editMember,
   deleteMemberById,
 };
+
+
+// const getMembers = async () => {
+//   try {
+//     let members = await Member.findAll({
+//       include: [{
+//         model: Member,
+//         as: 'Children',
+//       },{
+//         model: Member,
+//         as: 'Parent'
+//       }],
+//       attributes: { exclude: ['password'] },
+//     });
+//     return members;
+//   } catch (err) {
+//     console.log(`Error Get Members: ${err}`);
+//     return { error: 'DB Connection: Get Members'};
+//   }
+// };

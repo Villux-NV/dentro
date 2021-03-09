@@ -10,10 +10,18 @@ const SignUp = ({ history }) => {
   const handleSignUp = useCallback(async e => {
     e.preventDefault();
 
-    const { email, password } = e.target.elements;
+    const { name, email, password } = e.target.elements;
 
     try {
       await Firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
+
+      const user = Firebase.auth().currentUser;
+      user.updateProfile({
+        displayName: name.value,
+      });
+
+      console.log(user);
+
       history.push('/');
     } catch (err) {
       console.log({ errorInSignUp: err});
@@ -31,6 +39,11 @@ const SignUp = ({ history }) => {
       >
         <h4 className='d-flex justify-content-center'>Sign Up</h4>
         <Form onSubmit={handleSignUp}>
+          <Form.Group controlId='formName'>
+            <Form.Label>Name</Form.Label>
+            <Form.Control name='name' type='text' />
+          </Form.Group>
+
           <Form.Group controlId='formEmail'>
             <Form.Label>Email</Form.Label>
             <Form.Control name='email' type='email' autoComplete='email' />

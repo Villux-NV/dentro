@@ -2,6 +2,7 @@
   overflow: scroll;
   scrollbar-width: none;
   min-height: 90vh;
+  padding: 24px;
 }
 
 .main__container::-webkit-scrollbar {
@@ -78,7 +79,7 @@ div.family__members__button {
 }
 
 div.family__members__button > Dropdown.Item {
-  z-index: 2;
+  z-index: 10;
 }
 
 #dropdown-basic-button {

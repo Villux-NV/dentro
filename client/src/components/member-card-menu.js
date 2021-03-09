@@ -4,7 +4,7 @@ import { FaEllipsisH } from 'react-icons/fa';
 
 import ModalCard from './member-card-modal';
 
-const MemberCardMenu = ({ member, handleSubmit, handleChangeFirstName, handleChangeLastName, handleValue, handleDelete, firstName, lastName, addMemberId, value }) => {
+const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName, handleBirthday, handleValue, handleDelete, firstName, lastName, birthday, addMemberId, value }) => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShowDelete, setModalShowDelete] = useState(false);
 
@@ -46,10 +46,12 @@ const MemberCardMenu = ({ member, handleSubmit, handleChangeFirstName, handleCha
         member={member}
         value={value}
         handleSubmit={handleSubmit}
-        handleChangeFirstName={handleChangeFirstName}
-        handleChangeLastName={handleChangeLastName}
+        handleFirstName={handleFirstName}
+        handleLastName={handleLastName}
+        handleBirthday={handleBirthday}
         firstName={firstName}
         lastName={lastName}
+        birthday={birthday}
         addMemberId={addMemberId}
       />
       <ModalCard

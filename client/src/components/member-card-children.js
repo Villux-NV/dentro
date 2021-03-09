@@ -2,19 +2,21 @@ import { motion } from 'framer-motion';
 
 import MemberCardMenu from './member-card-menu';
 
-const MemberChildren = ({ member, index, handleSubmit, handleChangeFirstName, handleChangeLastName, handleValue, handleDelete, firstName, lastName, addMemberId, value }) => {
+const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLastName, handleBirthday, handleValue, handleDelete, memberInput, addMemberId, firstName, lastName, birthday, value }) => {
   const nestedMembers = (member.Children || []).map((member) => {
     return (
         <MemberChildren
           member={member}
           handleSubmit={handleSubmit}
-          handleChangeFirstName={handleChangeFirstName}
-          handleChangeLastName={handleChangeLastName}
+          handleFirstName={handleFirstName}
+          handleLastName={handleLastName}
+          handleBirthday={handleBirthday}
           handleValue={handleValue}
           handleDelete={handleDelete}
+          addMemberId={addMemberId}
           firstName={firstName}
           lastName={lastName}
-          addMemberId={addMemberId}
+          birthday={birthday}
           value={value}
           type='child'
         /> 
@@ -41,12 +43,14 @@ const MemberChildren = ({ member, index, handleSubmit, handleChangeFirstName, ha
             <MemberCardMenu
               member={member}
               handleSubmit={handleSubmit}
-              handleChangeFirstName={handleChangeFirstName}
-              handleChangeLastName={handleChangeLastName}
+              handleFirstName={handleFirstName}
+              handleLastName={handleLastName}
+              handleBirthday={handleBirthday}
               handleValue={handleValue}
               handleDelete={handleDelete}
               firstName={firstName}
               lastName={lastName}
+              birthday={birthday}
               addMemberId={addMemberId}
               value={value}
             />

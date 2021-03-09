@@ -1,16 +1,17 @@
 const { Router } = require('express');
-const { getTreeCtrl, getMembersCtrl, getMemberByIdCtrl, getParentByChildIdCtrl, getChildrenByParentIdCtrl,createMemberCtrl, createChildCtrl, createParentCtrl, addConnectionCtrl, editMemberCtrl, deleteMemberByIdCtrl } = require('./controllers');
+const { getTreeCtrl, getMembersCtrl, getMemberByIdCtrl, getFamiliesCtrl, createMemberCtrl, createChildCtrl, createParentCtrl, addConnectionCtrl, editMemberCtrl, deleteMemberByIdCtrl } = require('./controllers');
 
 const router = Router();
 
 
-router.get('/membertree', getTreeCtrl);
+router.get('/membertree/:familyNameId', getTreeCtrl);
 router.get('/members', getMembersCtrl);
 router.get('/members/:primaryId', getMemberByIdCtrl);
+router.get('/families/:userId', getFamiliesCtrl);
 
-router.post('/create', createMemberCtrl);
-router.post('/create/child/:primaryId', createChildCtrl);
-router.post('/create/parent/:primaryId', createParentCtrl);
+router.post('/create/:userId', createMemberCtrl);
+router.post('/create/child/:primaryId/:userId', createChildCtrl);
+router.post('/create/parent/:primaryId/:userId', createParentCtrl);
 router.post('/add/:parentId/:childId', addConnectionCtrl);
 
 router.put('/edit/:primaryId', editMemberCtrl);

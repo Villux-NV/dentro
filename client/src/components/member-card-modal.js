@@ -1,6 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 
-const ModalCard = ({ value, onHide, handleSubmit, handleChangeFirstName, handleChangeLastName, firstName, lastName, showAdd, showDelete, handleDelete }) => {
+const ModalCard = ({ value, onHide, handleSubmit, handleFirstName, handleLastName, handleBirthday, showAdd, showDelete, handleDelete, firstName, lastName, birthday }) => {
   
   const checkValue = () => {
     if (value === 'Child') {
@@ -17,7 +17,7 @@ const ModalCard = ({ value, onHide, handleSubmit, handleChangeFirstName, handleC
       <Modal
         show={showAdd}
         onHide={onHide}
-        size='lg'
+        size='sm'
         aria-labelledby='contained-modal-title-vcenter'
         centered
       >
@@ -27,15 +27,20 @@ const ModalCard = ({ value, onHide, handleSubmit, handleChangeFirstName, handleC
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form className='form__container' onSubmit={handleSubmit}>
+          <Form className='form__container__modal' onSubmit={handleSubmit}>
             <Form.Group controlId='formFirstName'>
               <Form.Label>First Name</Form.Label>
-              <Form.Control type='text' onChange={handleChangeFirstName} value={firstName} />
+              <Form.Control type='text' value={firstName} onChange={handleFirstName} />
             </Form.Group>
 
             <Form.Group controlId='formLastName'>
               <Form.Label>Last Name</Form.Label>
-              <Form.Control type='text' onChange={handleChangeLastName} value={lastName} />
+              <Form.Control type='text' value={lastName} onChange={handleLastName} />
+            </Form.Group>
+
+            <Form.Group controlId='formLastName'>
+              <Form.Label>Birthday</Form.Label>
+              <Form.Control type='date' value={birthday} onChange={handleBirthday} placeholder='MM-DD' />
             </Form.Group>
 
             <Button variant='outline-dark' size='sm' type='submit' value='Submit' onClick={onHide}>

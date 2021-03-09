@@ -1,9 +1,11 @@
 const { default: validator } = require('validator');
-const { getTree, getMembers, getMemberById, createMember, createChild, createParent, createConnectionByIds, editMember, deleteMemberById } = require('../models/crud');
+const { getTree, getMembers, getMemberById, getFamilies, createMember, createChild, createParent, createConnectionByIds, editMember, deleteMemberById } = require('../models/crud');
 
 exports.getTreeCtrl = async (req, res) => {
+  const { familyNameId } = req.params;
+
   try {
-    const members = await getTree();
+    const members = await getTree(familyNameId);
     if (members === false) return res.status(400).send(false);
     res.status(200).json(members);
   } catch (err) {
@@ -11,7 +13,7 @@ exports.getTreeCtrl = async (req, res) => {
   }
 }
 
-exports.getMembersCtrl = async (req, res) => {
+exports.getMembersCtrl = async (_, res) => {
   try {
     const members = await getMembers();
     res.status(200).json(members);
@@ -31,9 +33,21 @@ exports.getMemberByIdCtrl = async (req, res) => {
   }
 };
 
+exports.getFamiliesCtrl = async (req, res) => {
+  const { userId } = req.params;
+  
+  try {
+    const families = await getFamilies(userId);
+    res.status(200).json(families);
+  } catch (err) {
+    res.status(500).json({ error: 'Error Ctrl Get Families', status: 500 });
+  }
+
+};
+
 exports.createMemberCtrl = async (req, res) => {
-  // password, birthday
-  const { firstName, lastName, email } = req.body;
+  const { firstName, lastName, birthday, familyId } = req.body;
+  const { userId } = req.params;
 
   // if (!firstName || !lastName || !email || !birthday) return res.status(400).json({ error: 'Bad request', status: 400});
   // if (!validator.isEmail(email)) return res.status(400).json({ error: 'Bad request. Invalid email.', status: 400 });
@@ -42,9 +56,9 @@ exports.createMemberCtrl = async (req, res) => {
     const member = await createMember({
       firstName,
       lastName,
-      // email,
-      // password,
-      // birthday,
+      birthday,
+      familyId,
+      userId,
     });
 
     res.status(200).json(member);
@@ -54,17 +68,15 @@ exports.createMemberCtrl = async (req, res) => {
 };
 
 exports.createChildCtrl = async (req, res) => {
-  // email, password, birthday
-  const { firstName, lastName } = req.body;
-  const { primaryId } = req.params;
+  const { firstName, lastName, birthday } = req.body;
+  const { primaryId, userId } = req.params;
 
   try {
     const member = await createMember({
       firstName,
       lastName,
-      // email,
-      // password,
-      // birthday
+      birthday,
+      userId
     });
     const child = await createChild(primaryId, member);
     res.status(200).json(child);
@@ -74,13 +86,15 @@ exports.createChildCtrl = async (req, res) => {
 };
 
 exports.createParentCtrl = async (req, res) => {
-  const { firstName, lastName } = req.body;
-  const { primaryId } = req.params;
+  const { firstName, lastName, birthday } = req.body;
+  const { primaryId, userId } = req.params;
 
   try {
     const member = await createMember({
       firstName,
       lastName,
+      birthday,
+      userId
     });
     const parent = await createParent(primaryId, member);
     res.status(200).json(parent);
@@ -101,11 +115,11 @@ exports.addConnectionCtrl = async (req, res) => {
 };
 
 exports.editMemberCtrl = async (req, res) => {
-  const { firstName, lastName } = req.body;
+  const { firstName, lastName, birthday } = req.body;
   const { primaryId } = req.params;
 
   try {
-    const member = await editMember(primaryId, firstName, lastName);
+    const member = await editMember(primaryId, firstName, lastName, birthday);
     res.status(200).json(member);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Edit', status: 500 });

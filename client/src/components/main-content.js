@@ -1,10 +1,14 @@
 import MemberCard from './member-card';
 
-const MainContent = () => {
+const MainContent = ({ members, getMembers, familyNameId }) => {
 
   return (
     <div className='main__container'>
-      <MemberCard />
+      <MemberCard
+        members={members}
+        getMembers={getMembers}
+        familyNameId={familyNameId}
+      />
     </div>
   )
 };

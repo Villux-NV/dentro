@@ -4,7 +4,7 @@ import { FaEllipsisH } from 'react-icons/fa';
 
 import ModalCard from './member-card-modal';
 
-const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName, handleBirthday, handleValue, handleDelete, firstName, lastName, birthday, addMemberId, value }) => {
+const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName, handleBirthday, handleValue, handleDeleteMember, firstName, lastName, birthday, addMemberId, value }) => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShowDelete, setModalShowDelete] = useState(false);
 
@@ -32,7 +32,7 @@ const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName,
       title={<FaEllipsisH />}
       className='family__members__button'
       variant='lig'
-      drop='right'
+      drop='left'
     >
       <Dropdown.Item type='button' onClick={() => onClick('Child')}>Add Child</Dropdown.Item>
       { member.Parent < 1 &&
@@ -58,7 +58,7 @@ const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName,
         showDelete={modalShowDelete}
         onHide={() => setModalShowDelete(false)}
         member={member}
-        handleDelete={handleDelete}
+        handleDeleteMember={handleDeleteMember}
       />
     </DropdownButton>
   )

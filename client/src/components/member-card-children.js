@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import MemberCardMenu from './member-card-menu';
 
-const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLastName, handleBirthday, handleValue, handleDelete, memberInput, addMemberId, firstName, lastName, birthday, value }) => {
+const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLastName, handleBirthday, handleValue, handleDeleteMember, addMemberId, firstName, lastName, birthday, value }) => {
   const nestedMembers = (member.Children || []).map((member) => {
     return (
         <MemberChildren
@@ -12,7 +12,7 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
           handleLastName={handleLastName}
           handleBirthday={handleBirthday}
           handleValue={handleValue}
-          handleDelete={handleDelete}
+          handleDeleteMember={handleDeleteMember}
           addMemberId={addMemberId}
           firstName={firstName}
           lastName={lastName}
@@ -47,7 +47,7 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
               handleLastName={handleLastName}
               handleBirthday={handleBirthday}
               handleValue={handleValue}
-              handleDelete={handleDelete}
+              handleDeleteMember={handleDeleteMember}
               firstName={firstName}
               lastName={lastName}
               birthday={birthday}

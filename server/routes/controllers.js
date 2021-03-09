@@ -1,5 +1,5 @@
 const { default: validator } = require('validator');
-const { getTree, getMembers, getMemberById, getFamilies, createMember, createChild, createParent, createConnectionByIds, editMember, deleteMemberById } = require('../models/crud');
+const { getTree, getMemberById, getFamilies, createMember, createChild, createParent, createConnectionByIds, editMember, deleteMemberById, getOneMember } = require('../models/crud');
 
 exports.getTreeCtrl = async (req, res) => {
   const { familyId } = req.params;
@@ -12,15 +12,6 @@ exports.getTreeCtrl = async (req, res) => {
     res.status(500).json({ error: 'Error Ctrl Tree', status: 500 });
   }
 }
-
-exports.getMembersCtrl = async (_, res) => {
-  try {
-    const members = await getMembers();
-    res.status(200).json(members);
-  } catch (err) {
-    res.status(500).json({ error: 'Error Ctrl Get', status: 500 });
-  }
-};
 
 exports.getMemberByIdCtrl = async (req, res) => {
   const { primaryId } = req.params;
@@ -38,6 +29,7 @@ exports.getFamiliesCtrl = async (req, res) => {
   
   try {
     const families = await getFamilies(userId);
+    if (families === false) return res.status(400).send(false);
     res.status(200).json(families);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Get Families', status: 500 });
@@ -122,7 +114,10 @@ exports.editMemberCtrl = async (req, res) => {
 
   try {
     const member = await editMember(primaryId, firstName, lastName, birthday);
-    res.status(200).json(member);
+
+    const updatedMember = await getOneMember(primaryId);
+
+    res.status(200).json(updatedMember);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Edit', status: 500 });
   }
@@ -138,3 +133,14 @@ exports.deleteMemberByIdCtrl = async (req, res) => {
     res.status(500).json({ error: 'Error Ctrl Delete', status: 500 });
   }
 };
+
+exports.deleteFamilyCtrl = async (req, res) => {
+  const { primaryId, familyId } = req.params;
+
+  try {
+    const deletedFamily = await deleteFamily(primaryId, familyId);
+    res.status(200).json(deletedFamily);
+  } catch (err) {
+    res.status(500).json({ error: 'Error Ctrl Delete', status: 500 });
+  }
+}

@@ -4,7 +4,7 @@ const { Route, Redirect } = require("react-router");
 const { AuthContext } = require("./components/auth");
 
 
-const PrivateRoute = ({ component: RouteComponet, ...comps}) => {
+const PrivateRoute = ({ component: RouteComponent, ...comps}) => {
   const { currentUser } = useContext(AuthContext);
 
   return (
@@ -12,7 +12,7 @@ const PrivateRoute = ({ component: RouteComponet, ...comps}) => {
       {...comps}
       render={routeProps => 
         !!currentUser ? (
-          <RouteComponet {...routeProps} />
+          <RouteComponent {...routeProps} />
         ) : (
           <Redirect to={'/login'} />
         )

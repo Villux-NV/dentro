@@ -1,19 +1,17 @@
 import { useContext, useState } from 'react';
+import { motion } from 'framer-motion';
 
 import './member.css';
 import MemberStart from './member-start-card';
 import MemberChildren from './member-card-children';
 import { AuthContext } from './auth';
 
-const MemberCard = ({ members, getMembers, familyNameId }) => {
+const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValue, addMemberId, memberId, familyNameId, familyTest }) => {
   const BASE_URL = 'http://localhost:3500/';
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [birthday, setBirthday] = useState(new Date());
-
-  const [memberId, setMemberId] = useState('');
-  const [value, setValue] = useState('');
 
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.uid;
@@ -28,14 +26,6 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
   
   const handleBirthday = (e) => {
     setBirthday(e.target.value);
-  };
-
-  const handleMemberId = (id) => {
-    setMemberId(id);
-  };
-
-  const handleValue = (val) => {
-    setValue(val);
   };
 
   const handleSubmit = (e) => {
@@ -60,19 +50,29 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
     if (value === 'Child') {
       fetch(`${BASE_URL}create/child/${memberId}/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => getMembers(familyNameId));
+        .then(data => getMembers(data.FamilyId));
     } else if (value === 'Parent') {
       fetch(`${BASE_URL}create/parent/${memberId}/${userId}`, initPost)
         .then(res => res.json())
-        .then(data => getMembers(familyNameId));
+        .then(data => getMembers(data.FamilyId));
     } else if (value === 'Edit') {
       fetch(`${BASE_URL}edit/${memberId}`, initPut)
         .then(res => res.json())
-        .then(data => getMembers(familyNameId));
+        .then(data => {
+          getMembers(data.FamilyId);
+        });
     } else if (value === 'Start') {
-      fetch(`${BASE_URL}create/${userId}`, initPost)
-        .then(res => res.json())
-        .then(data => getMembers(familyNameId));
+      fetch(`${BASE_URL}create/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ firstName, lastName, birthday })
+      }).then(res => res.json())
+        .then(data => {
+          getMembers(data.FamilyId);
+          handleFamilyNameId(data.FamilyId);
+        });
     }
 
     setFirstName('');
@@ -80,7 +80,7 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
     setBirthday('');
   };
 
-  const handleDelete = (e) => {
+  const handleDeleteMember = (e) => {
     fetch(`${BASE_URL}delete/${memberId}`, { method: 'DELETE'})
       .then(res => res.json())
       .then(() => getMembers(familyNameId));
@@ -88,11 +88,19 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
 
   return (
     <div>
-      {console.log((!members), 'anything on startup?')}
       <div>
-        { !members &&
-          <div>
-            <h2 className='d-flex justify-content-center'>Start Your Tree!</h2> 
+        { members.length === 0 &&
+          <motion.div
+            layout
+            initial={{ y: -50 }}
+            animate={{ y: 0 }}
+          >
+            <div>
+              { familyTest &&
+                <h2 className='d-flex justify-content-center'>Select your tree! Or</h2>
+              }
+            </div>
+            <h2 className='d-flex justify-content-center'>Start a New Tree!</h2>
             <MemberStart
               handleSubmit={handleSubmit}
               handleFirstName={handleFirstName}
@@ -103,7 +111,7 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
               lastName={lastName}
               birthday={birthday}
             />
-          </div>
+          </motion.div>
         }
         { members &&
           members.map((member, index) => {
@@ -118,11 +126,11 @@ const MemberCard = ({ members, getMembers, familyNameId }) => {
                   handleLastName={handleLastName}
                   handleBirthday={handleBirthday}
                   handleValue={handleValue}
-                  handleDelete={handleDelete}
+                  handleDeleteMember={handleDeleteMember}
                   firstName={firstName}
                   lastName={lastName}
                   birthday={birthday}
-                  addMemberId={handleMemberId.bind(this)}
+                  addMemberId={addMemberId}
                   value={value}
                 />
               </div>

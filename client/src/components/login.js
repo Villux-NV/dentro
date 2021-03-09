@@ -1,11 +1,12 @@
 import { useCallback, useContext } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Navbar } from 'react-bootstrap';
 
 import Firebase from '../firebase';
 import { AuthContext } from './auth';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Redirect, withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const Login = ({ history }) => {
   const handleLogin = useCallback(
@@ -28,35 +29,55 @@ const Login = ({ history }) => {
     return <Redirect to='/' />;
   };
 
+  const frameVariants = {
+    initial: {
+      borderRadius: 20, x: -1000, opacity: 0
+    },
+    in: {
+      scale: 1.2, borderRadius: 20, x: 0, zIndex: 1, opacity: 1
+    },
+    out: {
+      opacity: 0, x: 1000, zIndex: 0
+    }
+  };
+
   return (
-    <motion.div className='form__container' layout>
-      <motion.div
-        layout
-        className='form'
-        animate={{ scale: 1.2, borderRadius: 10 }}
-        initial={{ borderRadius: 20 }}
-        transition={{ duration: .6 }}
-      >
-        <h4 className='d-flex justify-content-center'>Login</h4>
-        <Form className='form__container__initial' onSubmit={handleLogin}>
-            <Form.Group controlId='formEmail'>
-              <Form.Label>Email</Form.Label>
-              <Form.Control name='email' type='email' autoComplete='current-email' />
-            </Form.Group>
+    <div className='initial__container'>
+      <Navbar className='navbar justify-content-center'>
+        <Navbar.Brand>Welcome to Dentro</Navbar.Brand>
+      </Navbar>
 
-            <Form.Group controlId='formPassword'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control name='password' type='password' autoComplete='current-password' />
-            </Form.Group>
+      <div className='form__container'>
+        <motion.div
+          layout
+          variants={frameVariants}
+          className='form'
+          initial='initial'
+          animate='in'
+          transition={{ duration: 0.8 }}
+          exit='out'
+        >
+          <h4 className='d-flex justify-content-center'>Login</h4>
+          <Form className='form__container__initial' onSubmit={handleLogin}>
+              <Form.Group controlId='formEmail'>
+                <Form.Label>Email</Form.Label>
+                <Form.Control name='email' type='email' autoComplete='current-email' />
+              </Form.Group>
 
-            <Button variant='outline-primary' size='sm' type='submit' value='Submit'>
-              Submit
-            </Button>
-          </Form>
-          <hr />
-          <p>No account? <a href='/signup'>Sign Up</a></p>
-      </motion.div>
-    </motion.div>
+              <Form.Group controlId='formPassword'>
+                <Form.Label>Password</Form.Label>
+                <Form.Control name='password' type='password' autoComplete='current-password' />
+              </Form.Group>
+
+              <Button variant='outline-primary' size='sm' type='submit' value='Submit'>
+                Submit
+              </Button>
+            </Form>
+            <hr />
+            <p>No account? <Link to='/signup'>Sign Up</Link></p>
+        </motion.div>
+      </div>
+    </div>
   )
 }
 

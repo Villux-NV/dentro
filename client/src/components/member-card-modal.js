@@ -1,6 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 
-const ModalCard = ({ value, onHide, handleSubmit, handleFirstName, handleLastName, handleBirthday, showAdd, showDelete, handleDelete, firstName, lastName, birthday }) => {
+const ModalCard = ({ value, onHide, handleSubmit, handleFirstName, handleLastName, handleBirthday, showAdd, showDelete, handleDeleteMember, firstName, lastName, birthday }) => {
   
   const checkValue = () => {
     if (value === 'Child') {
@@ -67,7 +67,7 @@ const ModalCard = ({ value, onHide, handleSubmit, handleFirstName, handleLastNam
             <Button onClick={onHide} variant='outline-primary'>Cancel</Button>
           </div>
           <div className='modal__body__buttons'>
-            <Button onClick={function () {handleDelete(); onHide()}} variant='outline-danger'>Confirm</Button>
+            <Button onClick={function () {handleDeleteMember(); onHide()}} variant='outline-danger'>Confirm</Button>
           </div>
         </Modal.Body>
         <Modal.Footer className='dflex justify-content-center'>

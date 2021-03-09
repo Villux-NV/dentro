@@ -16,30 +16,36 @@ const getTree = async (familyId) => {
     });
 
     if (members.length === 0) {
+      deleteFamily(familyId);
       return false;
-    }
+    };
 
     const rootFilter = members.map(doc => doc.toJSON()).filter(member => {
       return member.Parent.length === 0;
-    })
+    });
 
     return await recursiveFind(rootFilter[0]);
   } catch (err) {
     console.log(`Error Get Tree: ${err}`);
     return { error: 'DB Connection: Get Tree'};
-  }
+  };
 };
 
 const recursiveFind = async (member) => {
-  if (!member.Children?.length) return member;
-
-  const allMembers = member.Children?.map(async child => {
-    const id = child.id;
-    const memberFound = await getMemberById(id);
-    return await recursiveFind(memberFound);
-  });
-
-  return { ...member, Children: await Promise.all(allMembers) };
+  try {
+    if (!member.Children?.length) return member;
+    
+    const allMembers = member.Children?.map(async child => {
+      const id = child.id;
+      const memberFound = await getMemberById(id);
+      return await recursiveFind(memberFound);
+    });
+    
+    return { ...member, Children: await Promise.all(allMembers) };
+  } catch (err) {
+    console.log(`Error Get Recursive: ${err}`);
+    return { error: 'DB Connection: Get Recursive'};
+  };
 };
 
 const getMemberById = async (primaryId) => {
@@ -55,20 +61,40 @@ const getMemberById = async (primaryId) => {
   } catch (err) {
     console.log(`Error Get Member by Id: ${err}`);
     return { error: 'DB Connection: Get Member by Id'}
+  };
+};
+
+const getOneMember = async (id) => {
+  try {
+    let member = await Member.findOne({ where: { id: id } });
+
+    return member;
+  } catch (err) {
+    console.log(`Error Get One Member: ${err}`);
+    return { error: 'DB Connection: Get One Member'}
   }
 };
 
 const getFamilies = async (userId) => {
   try {
-    const user = await User.findOne({ where: { uid: userId } });
+    let user = await User.findOne({ where: { uid: userId } });
+
+    if (!user) {
+      user = await User.create({ uid: userId });
+    };
+
     const families = await Family.findAll({
       where: { UserId: user.id }
-    })
+    });
+    if (families.length === 0) {
+      console.log('in to get false');
+      return false;
+    };
     return families;
   } catch (err) {
     console.log(`Error Get Families: ${err}`);
     return { error: 'DB Connection: Get Families'};
-  }
+  };
 };
 
 const createMember = async ({
@@ -89,11 +115,11 @@ const createMember = async ({
       family = await Family.findOne({ where: { id: familyNameId } });
     } else {
       family = await Family.create({ familyName: lastName, UserId: user.id });
-    }
+    };
 
     if (!user) {
       user = await User.create({ uid: userId });
-    }
+    };
 
     
     const member = await Member.create({ firstName, lastName, birthday, FamilyId: family.id });
@@ -102,7 +128,7 @@ const createMember = async ({
   } catch (err) {
     console.log(`Error Create Member: ${err}`);
     return { error: 'DB Connection: Create Member'};
-  }
+  };
 };
 
 const createChild = async (parentId, child) => {
@@ -116,7 +142,7 @@ const createChild = async (parentId, child) => {
   } catch (err) {
     console.log(`Error Create Child: ${err}`);
     return { error: 'DB Connection: Create Child'};
-  }
+  };
 };
 
 const createParent = async (childId, parent) => {
@@ -130,7 +156,7 @@ const createParent = async (childId, parent) => {
   } catch (err) {
     console.log(`Error Create Parent: ${err}`);
     return { error: 'DB Connection: Create Parent'};
-  }
+  };
 };
 
 const createConnectionByIds = async (parent, child) => {
@@ -145,17 +171,17 @@ const createConnectionByIds = async (parent, child) => {
   } catch (err) {
     console.log(`Error Create Connection: ${err}`);
     return { error: 'DB Connection: Create Connection'};
-  }
+  };
 };
 
 const editMember = async (memberId, firstName, lastName, birthday) => {
   try {
     const member = await Member.update({ firstName, lastName, birthday }, { where: { id: memberId } });
-    return member;
+    return memberId;
   } catch (err) {
     console.log(`Error Edit Member: ${err}`);
     return { error: 'DB Connection: Edit Member'};
-  }
+  };
 };
 
 const deleteMemberById = async (memberId) => {
@@ -165,37 +191,33 @@ const deleteMemberById = async (memberId) => {
   } catch (err) {
     console.log(`Error Delete Member: ${err}`);
     return { error: 'DB Connection: Delete Member'};
-  }
+  };
+};
+
+const deleteFamily = async (familyId) => {
+  try {
+    const deletedFamily = await Family.destroy({ 
+      where: {
+        id: familyId
+      } 
+    });
+    return deletedFamily;
+  } catch (err) {
+    console.log(`Error Delete Member: ${err}`);
+    return { error: 'DB Connection: Delete Member'};
+  };
 };
 
 module.exports = {
   getTree,
   getMemberById,
   getFamilies,
+  getOneMember,
   createMember,
   createChild,
   createParent,
   createConnectionByIds,
   editMember,
   deleteMemberById,
+  deleteFamily,
 };
-
-
-// const getMembers = async () => {
-//   try {
-//     let members = await Member.findAll({
-//       include: [{
-//         model: Member,
-//         as: 'Children',
-//       },{
-//         model: Member,
-//         as: 'Parent'
-//       }],
-//       attributes: { exclude: ['password'] },
-//     });
-//     return members;
-//   } catch (err) {
-//     console.log(`Error Get Members: ${err}`);
-//     return { error: 'DB Connection: Get Members'};
-//   }
-// };

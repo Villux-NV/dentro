@@ -1,4 +1,6 @@
 .app-container {
   background-color: bisque;
   min-height: 100vh;
+  background-image: linear-gradient(to right top, #93f1e0, #b1ecf5);
+  background-size: cover;
 }

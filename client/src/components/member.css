@@ -21,10 +21,15 @@
 }
 
 .form {
-  background: white;
-  border: 1px solid skyblue;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.35)
+  );
+  border: 1px solid rgb(100, 99, 99);
+  box-shadow: 4px 6px 3px #888;
   padding: 20px;
-  width: 200px;
+  width: 260px;
   height: fit-content;
 }
 
@@ -32,8 +37,14 @@
   width: 100%;
 }
 
+.family__container {
+  min-width: fit-content;
+}
+
 .family__groups {
-  border: 1px solid red;
+  border: 1px solid rgb(175, 173, 173);
+  border-radius: 30px;
+  padding: 26px;
 }
 
 .family__children {
@@ -53,8 +64,14 @@
 .family__members {
   display: flex;
   align-items: center;
-  background-color: lightcoral;
-  color: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.35)
+  );
+  border: 1px solid rgb(100, 99, 99);
+  box-shadow: 2px 1px 3px #888;
+  color: rgb(78, 78, 78);
   width: 260px;
   height: 80px;
   padding: 16px;
@@ -94,4 +111,9 @@ div.family__members__button > Dropdown.Item {
 
 .modal__body__buttons {
   padding: 10px;
+}
+
+.navbar {
+  background-color: rgba(202, 235, 235, 0.6);
+  box-shadow: 0 4px 8px #888;
 }

@@ -4,7 +4,7 @@ import { Form, Button, Navbar } from 'react-bootstrap';
 import Firebase from '../firebase';
 import { AuthContext } from './auth';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Redirect, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -31,20 +31,28 @@ const Login = ({ history }) => {
 
   const frameVariants = {
     initial: {
-      borderRadius: 20, x: -1000, opacity: 0
+      borderRadius: 20, scale: 0.6, opacity: 0
     },
     in: {
-      scale: 1.2, borderRadius: 20, x: 0, zIndex: 1, opacity: 1
+      scale: 1.2, borderRadius: 20, zIndex: 1, opacity: 1
     },
     out: {
-      opacity: 0, x: 1000, zIndex: 0
+      opacity: 0, zIndex: 0
     }
   };
 
   return (
     <div className='initial__container'>
       <Navbar className='navbar justify-content-center'>
-        <Navbar.Brand>Welcome to Dentro</Navbar.Brand>
+        <motion.div
+          layout
+          className='navbar__title'
+          initial={{ scale: 1 }}
+          animate={{ scale: 1.4 }}
+          transition={{ duration: 0.8 }}
+        >
+          <Navbar.Brand>Welcome to Dentro</Navbar.Brand>
+        </motion.div>
       </Navbar>
 
       <div className='form__container'>

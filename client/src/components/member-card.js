@@ -51,6 +51,7 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
     }
 
     if (value === 'Child') {
+      console.log(userId, memberId);
       fetch(`${BASE_URL}create/child/${memberId}/${userId}`, initPost)
         .then(res => res.json())
         .then(data => getMembers(data.FamilyId));
@@ -132,10 +133,10 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
           >
             <div>
               { familyTest &&
-                <h2 className='d-flex justify-content-center'>Select your tree! Or</h2>
+                <h3 className='d-flex justify-content-center'>SELECT YOUR TREE! OR</h3>
               }
             </div>
-            <h2 className='d-flex justify-content-center'>Start a New Tree!</h2>
+            <h3 className='d-flex justify-content-center'>START A NEW TREE!</h3>
             <MemberStart
               handleSubmit={handleSubmit}
               handleFirstName={handleFirstName}

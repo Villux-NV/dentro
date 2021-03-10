@@ -1,7 +1,4 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { FaPlus } from 'react-icons/fa';
 
 import MemberCardMenu from './member-card-menu';
 
@@ -60,14 +57,14 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
               {/* htmlFor='upload-button' */}
               <label>
                 { image ? (
-                    <img className='member__picture' />
+                    <div className='member__picture' alt='pic' />
                 ) : (
                   <>
-                    <img className='member__picture' />
+                    <div className='member__picture' alt='pic' />
                   </>
                 )}
               </label>
-              <input id='upload-button' type='file' style={{ display: 'none' }} onChange={handleImage} addMemberId={addMemberId(member.id)} />
+              <input id='upload-button' type='file' style={{ display: 'none' }} onChange={handleImage} />
               {/* <Button variant='lig' onClick={uploadImageFirebase}>
                 <FaPlus />
               </Button> */}

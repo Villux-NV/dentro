@@ -1,7 +1,7 @@
 import { withRouter } from 'react-router';
 import { useCallback } from 'react';
 import { Form, Button, Navbar } from 'react-bootstrap';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import Firebase from '../firebase';
 import { Link } from 'react-router-dom';
@@ -31,20 +31,27 @@ const SignUp = ({ history }) => {
 
   const frameVariants = {
     initial: {
-      borderRadius: 0, x: -1000
+      borderRadius: 20, scale: 0.6, opacity: 0
     },
     in: {
-      scale: 1.2, borderRadius: 10, x: 0
+      scale: 1.2, borderRadius: 20, zIndex: 1, opacity: 1
     },
     out: {
-      opacity: 0, x: 1000
+      opacity: 0, zIndex: 0
     }
   };
 
   return (
     <div className='initial__container'>
       <Navbar className='navbar justify-content-center'>
-        <Navbar.Brand>Welcome to Dentro</Navbar.Brand>
+        <motion.div
+          layout
+          className='navbar__title'
+          initial={{ scale: 1.4 }}
+          animate={{ scale: 1.4 }}
+        >
+          <Navbar.Brand>Welcome to Dentro</Navbar.Brand>
+        </motion.div>
       </Navbar>
 
       <div className='form__container'>

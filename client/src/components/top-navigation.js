@@ -1,17 +1,14 @@
 import { useContext } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { AuthContext } from './auth';
 import Firebase from '../firebase';
 
 const TopNavigation = ({ handleFamilyNameId, handleNewMembers, families, familyTest }) => {
-  let userId, display;
+  let display;
   
   const { currentUser } = useContext(AuthContext);
-
-  if (currentUser) {
-    userId = currentUser.uid;
-  };
 
   const displayName = () => {
     if (currentUser) {
@@ -44,8 +41,8 @@ const TopNavigation = ({ handleFamilyNameId, handleNewMembers, families, familyT
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleNewMembers}>Add New Family</NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link href='#noroute'>Calendar</Nav.Link>
-          <Nav.Link onClick={() => Firebase.auth().signOut()}>Logout{displayName()}</Nav.Link>
+          {/* <Nav.Link><Link style={{ color: 'rgb(70,69,69)' }} to='/calendar'>Calendar</Link></Nav.Link> */}
+          <Nav.Link style={{ color: 'rgb(70,69,69)' }} onClick={() => Firebase.auth().signOut()}>Logout{displayName()}</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

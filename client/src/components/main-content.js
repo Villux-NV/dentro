@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './auth';
 import MemberCard from './member-card';
 import TopNavigation from './top-navigation';
-import { storage } from '../firebase';
 
 const MainContent = () => {
   let userId;
@@ -22,9 +21,7 @@ const MainContent = () => {
     userId = currentUser.uid;
   };
 
-  useEffect(() => {
-    getFamilies();
-  }, []);
+  useEffect(() => getFamilies(), []);
   
   async function getFamilies () {
     await fetch(`http://localhost:3500/families/${userId}`)
@@ -32,9 +29,7 @@ const MainContent = () => {
       .then(data => {
         if (!data) {
           setFamilyTest(false);
-          console.log(families);
         } else {
-          console.log(data, 'new fam?');
           setFamilyTest(true);
           setFamilies(data);
         }

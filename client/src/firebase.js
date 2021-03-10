@@ -1,5 +1,7 @@
-const firebase = require('firebase/app');
-require('firebase/auth');
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/storage';
+
 
 const Firebase = firebase.default.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,4 +13,6 @@ const Firebase = firebase.default.initializeApp({
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 });
 
-export default Firebase;
+const storage = firebase.storage();
+
+export { storage, Firebase as default};

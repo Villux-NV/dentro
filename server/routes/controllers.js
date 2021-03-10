@@ -1,5 +1,5 @@
 const { default: validator } = require('validator');
-const { getTree, getMemberById, getFamilies, createMember, createChild, createParent, createConnectionByIds, editMember, deleteMemberById, getOneMember } = require('../models/crud');
+const { getTree, getMemberById, getFamilies, createMember, createChild, createParent, createConnectionByIds, addImage, editMember, deleteMemberById, getOneMember } = require('../models/crud');
 
 exports.getTreeCtrl = async (req, res) => {
   const { familyId } = req.params;
@@ -107,6 +107,21 @@ exports.addConnectionCtrl = async (req, res) => {
     res.status(500).json({ error: 'Error Ctrl Connection', status: 500 });
   }
 };
+
+exports.addImageCtrl = async (req, res) => {
+  const { url } = req.body;
+  const { userId } = req.params;
+
+  console.log(url, userId, 'anything?');
+
+  try {
+    const member = await addImage(url, userId);
+
+    res.status(200).json(member);
+  } catch (err) {
+    res.status(500).json({ error: 'Error Ctrl Image', status: 500 });
+  }
+}
 
 exports.editMemberCtrl = async (req, res) => {
   const { firstName, lastName, birthday } = req.body;

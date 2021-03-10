@@ -78,15 +78,23 @@
   position: relative;
 }
 
-.family__members__avatar {
-  width: 50px;
-  height: 50px;
+.member__picture {
+  background-image: url("../assets/images/man.jpg");
+  background-position: center;
+  background-size: 50px 54px;
+  width: 54px;
+  height: 54px;
   background-color: #666;
-  border-radius: 25px;
+  border-radius: 27px;
 }
 
-.family__members__names {
+.family__members__details {
   padding: 8px;
+}
+
+p.family__members__birthday {
+  font-size: 14px;
+  color: rgb(163, 162, 162);
 }
 
 div.family__members__button {

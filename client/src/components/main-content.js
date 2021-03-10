@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './auth';
 import MemberCard from './member-card';
 import TopNavigation from './top-navigation';
+import { storage } from '../firebase';
 
 const MainContent = () => {
   let userId;

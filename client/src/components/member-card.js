@@ -5,6 +5,7 @@ import './member.css';
 import MemberStart from './member-start-card';
 import MemberChildren from './member-card-children';
 import { AuthContext } from './auth';
+import { storage } from '../firebase';
 
 const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValue, addMemberId, memberId, familyNameId, familyTest }) => {
   const BASE_URL = 'http://localhost:3500/';
@@ -12,6 +13,8 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [birthday, setBirthday] = useState(new Date());
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState('');
 
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.uid;
@@ -86,6 +89,38 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
       .then(() => getMembers(familyNameId));
   };
 
+  const handleImage = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    };
+  };
+
+
+  const uploadImageFirebase = (e) => {
+    e.preventDefault();
+
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+
+    uploadTask.on(
+      'state_changed',
+      snapshot => {},
+      error => {
+        console.log(error);
+      },
+      () => {
+        storage.ref('images')
+          .child(image.name)
+          .getDownloadURL()
+          .then(url => {
+            console.log(url);
+            setUrl(url);
+        })
+      }
+    );
+  };
+
+  // work on uploading image to db
+
   return (
     <div>
       <div>
@@ -127,11 +162,15 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
                   handleBirthday={handleBirthday}
                   handleValue={handleValue}
                   handleDeleteMember={handleDeleteMember}
+                  handleImage={handleImage}
+                  uploadImageFirebase={uploadImageFirebase}
                   firstName={firstName}
                   lastName={lastName}
                   birthday={birthday}
                   addMemberId={addMemberId}
                   value={value}
+                  image={image}
+                  url={url}
                 />
               </div>
             )

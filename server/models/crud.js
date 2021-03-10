@@ -86,10 +86,11 @@ const getFamilies = async (userId) => {
     const families = await Family.findAll({
       where: { UserId: user.id }
     });
+
     if (families.length === 0) {
-      console.log('in to get false');
       return false;
     };
+
     return families;
   } catch (err) {
     console.log(`Error Get Families: ${err}`);
@@ -174,6 +175,19 @@ const createConnectionByIds = async (parent, child) => {
   };
 };
 
+const addImage = async (url, id) => {
+  try {
+    const member = await Member.update({ image: url }, {
+      where: { id: id }
+    });
+
+    return id;
+  } catch (err) {
+    console.log(`Error Add Image: ${err}`);
+    return { error: 'DB Connection: Add Image'};
+  }
+};
+
 const editMember = async (memberId, firstName, lastName, birthday) => {
   try {
     const member = await Member.update({ firstName, lastName, birthday }, { where: { id: memberId } });
@@ -217,6 +231,7 @@ module.exports = {
   createChild,
   createParent,
   createConnectionByIds,
+  addImage,
   editMember,
   deleteMemberById,
   deleteFamily,

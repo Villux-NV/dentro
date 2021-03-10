@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 import { AuthContext } from './auth';
 import Firebase from '../firebase';
+import { motion } from 'framer-motion';
 
 const TopNavigation = ({ handleFamilyNameId, handleNewMembers, families, familyTest }) => {
   let display;
@@ -16,6 +16,7 @@ const TopNavigation = ({ handleFamilyNameId, handleNewMembers, families, familyT
     }
     return <>: {display}</>
   };
+
 
   return (
     <Navbar className='navbar' >

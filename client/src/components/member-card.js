@@ -120,10 +120,12 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
     );
   };
 
+
   // work on uploading image to db
 
   return (
     <div>
+
       <div>
         { members.length === 0 &&
           <motion.div

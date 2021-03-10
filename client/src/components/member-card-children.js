@@ -52,7 +52,7 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
       className='family__groups'
     >
         <motion.div layout className='family__children'>
-          <motion.div layout initial={{ borderRadius: 25 }} className='family__members'>
+          <motion.div layout initial={{ borderRadius: 25 }} whileHover={{ scale: 1.1 }} className='family__members'>
             <div className='family__members__avatar__container'>
               {/* htmlFor='upload-button' */}
               <label>

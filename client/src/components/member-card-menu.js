@@ -33,9 +33,9 @@ const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName,
       title={<FaEllipsisH />}
       className='family__members__button'
       variant='lig'
-      drop='left'
+      drop='up'
     >
-      <Dropdown.Item type='button' onClick={() => onClick('Child')}>Add Child</Dropdown.Item>
+      <Dropdown.Item type='button' style={{ transform: 'translateX(-10)'}} onClick={() => onClick('Child')}>Add Child</Dropdown.Item>
       { member.Parent < 1 &&
         <Dropdown.Item type='button' onClick={() => onClick('Parent')}>Add Parent</Dropdown.Item>
       }

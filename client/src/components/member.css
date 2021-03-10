@@ -1,12 +1,17 @@
 .member__container {
   overflow: scroll;
-  scrollbar-width: none;
   min-height: 90vh;
   padding: 24px;
 }
 
 .member__container::-webkit-scrollbar {
-  display: none;
+  -webkit-appearance: none;
+  width: 6px;
+}
+.member__container::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(141, 137, 137, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .form__container {
@@ -39,6 +44,7 @@
 
 .family__container {
   min-width: fit-content;
+  padding: 72px 10px;
 }
 
 .family__groups {
@@ -100,12 +106,8 @@ p.family__members__birthday {
 div.family__members__button {
   position: absolute;
   bottom: 0;
-  right: 6px;
+  right: 72px;
   outline: none;
-}
-
-div.family__members__button > Dropdown.Item {
-  z-index: 10;
 }
 
 #dropdown-basic-button {
@@ -129,4 +131,24 @@ div.family__members__button > Dropdown.Item {
 
 .navbar__title {
   font-weight: 700;
+}
+
+.svg_path_container {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  place-content: center;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+}
+
+.svg_path {
+  width: 56%;
+  overflow: visible;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }

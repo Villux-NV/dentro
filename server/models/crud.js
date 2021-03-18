@@ -110,19 +110,19 @@ const createMember = async ({
     // let member = await Member.findOne({ where: { firstName } });
     // if (member) return false;
     let family;
-    let user = await User.findOne({ where: { uid: userId } });
+    console.log(firstName, lastName, birthday, userId, familyNameId);
+    let user = await User.findOne({ where: { uid: userId }, raw: true });
     
+    if (!user) {
+      user = await User.create({ uid: userId }, { raw: true });
+    };
+    console.log(user);
     if (familyNameId) {
       family = await Family.findOne({ where: { id: familyNameId } });
     } else {
       family = await Family.create({ familyName: lastName, UserId: user.id });
     };
 
-    if (!user) {
-      user = await User.create({ uid: userId });
-    };
-
-    
     const member = await Member.create({ firstName, lastName, birthday, FamilyId: family.id });
 
     return member;

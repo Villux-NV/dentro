@@ -17,12 +17,10 @@ const App = () => {
         <Router>
           <AnimatePresence exitBeforeEnter>
             <div className='app-container'>
-              <Route>
-                <PrivateRoute exact path='/' component={MainContent} />
-                {/* <PrivateRoute exact path='/calendar' component={Calendar} /> */}
-                <Route exact path='/login' component={Login} />
-                <Route exact path='/signup' component={SignUp} />
-              </Route>
+              <PrivateRoute exact path='/' component={MainContent} />
+              {/* <PrivateRoute exact path='/calendar' component={Calendar} /> */}
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/signup' component={SignUp} />
             </div>
           </AnimatePresence>
         </Router>

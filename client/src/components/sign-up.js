@@ -1,4 +1,3 @@
-import { withRouter } from 'react-router';
 import { useCallback } from 'react';
 import { Form, Button, Navbar } from 'react-bootstrap';
 import { motion } from 'framer-motion';
@@ -6,11 +5,9 @@ import { motion } from 'framer-motion';
 import Firebase from '../firebase';
 import { Link } from 'react-router-dom';
 
-
 const SignUp = ({ history }) => {
   const handleSignUp = useCallback(async e => {
     e.preventDefault();
-
     const { name, email, password } = e.target.elements;
 
     try {
@@ -20,8 +17,6 @@ const SignUp = ({ history }) => {
       user.updateProfile({
         displayName: name.value,
       });
-
-      console.log(user);
 
       history.push('/');
     } catch (err) {
@@ -65,23 +60,23 @@ const SignUp = ({ history }) => {
           transition={{ duration: 0.8 }}
         >
           <h4 className='d-flex justify-content-center'>Sign Up</h4>
-          <Form className='form__container__initial' onSubmit={handleSignUp}>
+          <Form data-testid='submitForm' className='form__container__initial' onSubmit={handleSignUp}>
             <Form.Group controlId='formName'>
               <Form.Label>Name</Form.Label>
-              <Form.Control name='name' type='text' />
+              <Form.Control data-testid='formName' name='name' type='text' />
             </Form.Group>
 
             <Form.Group controlId='formEmail'>
               <Form.Label>Email</Form.Label>
-              <Form.Control name='email' type='email' autoComplete='email' />
+              <Form.Control data-testid='formEmail' name='email' type='email' autoComplete='email' />
             </Form.Group>
 
             <Form.Group controlId='formPassword'>
               <Form.Label>Password</Form.Label>
-              <Form.Control name='password' type='password' autoComplete='new-password' />
+              <Form.Control data-testid='formPassword' name='password' type='password' autoComplete='new-password' />
             </Form.Group>
 
-            <Button variant='outline-primary' size='sm' type='submit' value='Submit'>
+            <Button data-testid='formButton' variant='outline-primary' size='sm' type='submit' value='Submit'>
               Submit
             </Button>
           </Form>
@@ -90,7 +85,7 @@ const SignUp = ({ history }) => {
         </motion.div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(SignUp);
+export default SignUp;

@@ -10,7 +10,7 @@ const ModalCard = ({ value, onHide, handleSubmit, handleFirstName, handleLastNam
     } else {
       return 'Edit Member';
     }
-  }
+  };
 
   return (
     <div>
@@ -75,7 +75,7 @@ const ModalCard = ({ value, onHide, handleSubmit, handleFirstName, handleLastNam
         </Modal.Footer>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default ModalCard;

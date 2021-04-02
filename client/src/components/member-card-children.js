@@ -25,8 +25,8 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
           url={url}
           type='child'
         /> 
-    )
-  })
+    );
+  });
 
   const getBirthday = (day) => {
     if (!day) {
@@ -35,8 +35,6 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
       return day.slice(5, 10);
     }
   };
-
-
 
   return (
     <motion.div
@@ -54,7 +52,6 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
         <motion.div layout className='family__children'>
           <motion.div layout initial={{ borderRadius: 25 }} whileHover={{ scale: 1.1 }} className='family__members'>
             <div className='family__members__avatar__container'>
-              {/* htmlFor='upload-button' */}
               <label>
                 { image ? (
                     <div className='member__picture' alt='pic' />
@@ -65,9 +62,6 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
                 )}
               </label>
               <input id='upload-button' type='file' style={{ display: 'none' }} onChange={handleImage} />
-              {/* <Button variant='lig' onClick={uploadImageFirebase}>
-                <FaPlus />
-              </Button> */}
             </div>
 
             <div className='family__members__details'>
@@ -97,7 +91,7 @@ const MemberChildren = ({ member, index, handleSubmit, handleFirstName, handleLa
           </motion.div>
       </motion.div>
     </motion.div>
-  )
-}
+  );
+};
 
 export default MemberChildren;

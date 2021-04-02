@@ -36,7 +36,6 @@ const MainContent = () => {
       });
   };
 
-
   async function getMembers (id) {
     await fetch(`http://localhost:3500/membertree/${id}`)
       .then(res => res.json())
@@ -92,7 +91,7 @@ const MainContent = () => {
         />
       </div>
     </div>
-  )
+  );
 };
 
 export default MainContent;

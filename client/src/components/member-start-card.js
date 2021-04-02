@@ -60,7 +60,7 @@ const MemberStart = ({ handleSubmit, handleFirstName, handleLastName, handleBirt
         </div>
       </motion.div>
     </div>
-  )
-}
+  );
+};
 
 export default MemberStart;

@@ -3,11 +3,9 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 import { AuthContext } from './auth';
 import Firebase from '../firebase';
-import { motion } from 'framer-motion';
 
 const TopNavigation = ({ handleFamilyNameId, handleNewMembers, families, familyTest }) => {
   let display;
-  
   const { currentUser } = useContext(AuthContext);
 
   const displayName = () => {
@@ -16,7 +14,6 @@ const TopNavigation = ({ handleFamilyNameId, handleNewMembers, families, familyT
     }
     return <>: {display}</>
   };
-
 
   return (
     <Navbar className='navbar' >
@@ -42,12 +39,11 @@ const TopNavigation = ({ handleFamilyNameId, handleNewMembers, families, familyT
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleNewMembers}>Add New Family</NavDropdown.Item>
           </NavDropdown>
-          {/* <Nav.Link><Link style={{ color: 'rgb(70,69,69)' }} to='/calendar'>Calendar</Link></Nav.Link> */}
-          <Nav.Link style={{ color: 'rgb(70,69,69)' }} onClick={() => Firebase.auth().signOut()}>Logout{displayName()}</Nav.Link>
+          <Nav.Link data-testid='logoutButton' style={{ color: 'rgb(70,69,69)' }} onClick={() => Firebase.auth().signOut()}>Logout{displayName()}</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  )
+  );
 };
 
 export default TopNavigation;

@@ -11,7 +11,6 @@ const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName,
   const onClick = (val) => {
     setModalShow(true);
     addMemberId(member.id);
-    console.log(val, member.id)
 
     if (val === 'Child') {
       handleValue('Child');
@@ -62,7 +61,7 @@ const MemberCardMenu = ({ member, handleSubmit, handleFirstName, handleLastName,
         handleDeleteMember={handleDeleteMember}
       />
     </DropdownButton>
-  )
-}
+  );
+};
 
 export default MemberCardMenu;

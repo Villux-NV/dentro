@@ -8,12 +8,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { AuthContext } from './auth';
 import Firebase from '../firebase';
 
+// TODO: Implement Calendar Feature
 const CalendarCard = () => {
   let display;
   const localizer = momentLocalizer(moment);
-  
   const { currentUser } = useContext(AuthContext);
-  
+
   const [events, setEvents] = useState([]);
 
   const displayName = () => {
@@ -50,7 +50,7 @@ const CalendarCard = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CalendarCard;

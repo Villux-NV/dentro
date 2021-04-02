@@ -5,7 +5,7 @@ import Firebase from '../firebase';
 import { AuthContext } from './auth';
 
 import { motion } from 'framer-motion';
-import { Redirect, withRouter } from 'react-router';
+import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const Login = ({ history }) => {
@@ -86,7 +86,7 @@ const Login = ({ history }) => {
         </motion.div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(Login);
+export default Login;

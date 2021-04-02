@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion, useCycle } from 'framer-motion';
 
-
 const sideMenu = {
   open: (height = 250) => ({
     clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
@@ -37,8 +36,8 @@ const Navigation = () => {
       <motion.div variants={sideMenu} className='background' />
       <MenuToggle toggle={() => toggleOpen()} />
     </motion.nav>
-  )
-}
+  );
+};
 
 const Path = (props) => {
   <motion.path
@@ -75,7 +74,7 @@ const MenuToggle = ({ toggle }) => {
       />
     </svg>
   </button>
-}
+};
 
 const useDimensions = ref => {
   const dimensions = useRef({ width: 0, height: 0 });
@@ -86,6 +85,6 @@ const useDimensions = ref => {
   }, []);
 
   return dimensions.current;
-}
+};
 
 export default Navigation;

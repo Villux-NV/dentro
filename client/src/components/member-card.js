@@ -40,7 +40,7 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ firstName, lastName, birthday, familyNameId })
-    }
+    };
 
     const initPut = {
       method: 'PUT',
@@ -48,7 +48,7 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ firstName, lastName, birthday })
-    }
+    };
 
     if (value === 'Child') {
       console.log(userId, memberId);
@@ -125,7 +125,6 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
 
   return (
     <div>
-
       <div>
         { members.length === 0 &&
           <motion.div
@@ -181,7 +180,7 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
         }
       </div>
     </div>
-  )
+  );
 };
 
 export default MemberCard;

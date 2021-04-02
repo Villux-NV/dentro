@@ -7,17 +7,16 @@ const app = express();
 
 const corsOptions = {
   origin: 'http://localhost:3000'
-}
+};
 
 app.use(cors(corsOptions));
 app.use(express.json());
 db.sync();
 app.use('/', router);
 
-app.get('*', (req, res) => {
+app.get('*', (_, res) => {
   res.status(404).send('Sorry, no page found. :`(');
-})
-
+});
 
 try {
   db.authenticate();
@@ -34,4 +33,3 @@ app.listen(PORT, (err) => {
     console.log(`Server Lives at ${PORT}!`);
   }
 });
-

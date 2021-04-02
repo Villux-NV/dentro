@@ -106,17 +106,12 @@ const createMember = async ({
   familyNameId,
 }) => {
   try {
-    // not needed for creating members in tree, will need for auth
-    // let member = await Member.findOne({ where: { firstName } });
-    // if (member) return false;
     let family;
-    console.log(firstName, lastName, birthday, userId, familyNameId);
     let user = await User.findOne({ where: { uid: userId }, raw: true });
     
     if (!user) {
       user = await User.create({ uid: userId }, { raw: true });
     };
-    console.log(user);
     if (familyNameId) {
       family = await Family.findOne({ where: { id: familyNameId } });
     } else {
@@ -149,7 +144,6 @@ const createChild = async (parentId, child) => {
 const createParent = async (childId, parent) => {
   try {
     const memberChild = await Member.findOne({ where: { id: childId } });
-
     await memberChild.addParent(parent);
     await parent.addChildren(memberChild);
 

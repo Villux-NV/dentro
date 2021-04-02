@@ -11,7 +11,7 @@ exports.getTreeCtrl = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Tree', status: 500 });
   }
-}
+};
 
 exports.getMemberByIdCtrl = async (req, res) => {
   const { primaryId } = req.params;
@@ -34,15 +34,11 @@ exports.getFamiliesCtrl = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Get Families', status: 500 });
   }
-
 };
 
 exports.createMemberCtrl = async (req, res) => {
   const { firstName, lastName, birthday, familyNameId } = req.body;
   const { userId } = req.params;
-
-  // if (!firstName || !lastName || !email || !birthday) return res.status(400).json({ error: 'Bad request', status: 400});
-  // if (!validator.isEmail(email)) return res.status(400).json({ error: 'Bad request. Invalid email.', status: 400 });
 
   try {
     const member = await createMember({
@@ -52,7 +48,6 @@ exports.createMemberCtrl = async (req, res) => {
       familyNameId,
       userId,
     });
-
     res.status(200).json(member);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Create', status: 500 });
@@ -112,11 +107,8 @@ exports.addImageCtrl = async (req, res) => {
   const { url } = req.body;
   const { userId } = req.params;
 
-  console.log(url, userId, 'anything?');
-
   try {
     const member = await addImage(url, userId);
-
     res.status(200).json(member);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Image', status: 500 });
@@ -129,9 +121,7 @@ exports.editMemberCtrl = async (req, res) => {
 
   try {
     const member = await editMember(primaryId, firstName, lastName, birthday);
-
     const updatedMember = await getOneMember(primaryId);
-
     res.status(200).json(updatedMember);
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Edit', status: 500 });
@@ -158,4 +148,4 @@ exports.deleteFamilyCtrl = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Error Ctrl Delete', status: 500 });
   }
-}
+};

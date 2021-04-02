@@ -3,7 +3,6 @@ const { getTreeCtrl, getMemberByIdCtrl, getFamiliesCtrl, createMemberCtrl, creat
 
 const router = Router();
 
-
 router.get('/membertree/:familyId', getTreeCtrl);
 router.get('/members/:primaryId', getMemberByIdCtrl);
 router.get('/families/:userId', getFamiliesCtrl);

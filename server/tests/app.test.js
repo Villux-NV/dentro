@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('./app');
 
-
 test('should create a new user and return a new member', async () => {
   await request(app).post('/create/10')
     .send({

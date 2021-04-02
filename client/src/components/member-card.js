@@ -51,7 +51,6 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
     };
 
     if (value === 'Child') {
-      console.log(userId, memberId);
       fetch(`${BASE_URL}create/child/${memberId}/${userId}`, initPost)
         .then(res => res.json())
         .then(data => getMembers(data.FamilyId));
@@ -113,7 +112,6 @@ const MemberCard = ({ members, value, getMembers, handleFamilyNameId, handleValu
           .child(image.name)
           .getDownloadURL()
           .then(url => {
-            console.log(url);
             setUrl(url);
         })
       }

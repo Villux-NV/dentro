@@ -20,7 +20,7 @@ Dentro is a website where you can visualize your family tree. Add multiple famil
 git clone https://github.com/Villux-NV/dentro.git
 ```
 
-2. Install dependences for server and client
+2. Install dependencies for server and client
 
 ```
 cd client

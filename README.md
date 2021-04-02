@@ -4,7 +4,7 @@
 
 # Dentro
 
-Dentro is a website where you can visualize your family tree. Add multiple families, keep track of everyones birthdays, and show off the size of your family!
+Dentro is a website where you can visualize your family tree. Add multiple families, keep track of everyone's birthdays, and show off the size of your family!
 
 ## Screenshots
 

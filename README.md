@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/dentrologo.png" />
+  <img src="images/dentrologo.png" width="300" height="300" />
 </p>
 
 # Dentro

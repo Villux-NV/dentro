@@ -12,6 +12,10 @@ Dentro is a website where you can visualize your family tree. Add multiple famil
   <img src="images/dentrofamily.PNG" />
 </p>
 
+## Video
+
+[![](http://img.youtube.com/vi/wEMD8swTq0M/0.jpg)](http://www.youtube.com/watch?v=wEMD8swTq0M "Dentro Overview")
+
 ## Getting started
 
 1. Clone the repo

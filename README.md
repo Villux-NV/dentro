@@ -49,7 +49,7 @@ npm start
 - [React](https://reactjs.org/) - Front end library for building user interfaces
 - [Express](https://expressjs.com/) - Minimalist web framework for Node.js
 - [Sequelize](https://sequelize.org/) - Promise-based Node.js ORM for Postgres
-- [Postgres](https://www.postgresql.org/) - Open source object-relational database
+- [PostgreSQL](https://www.postgresql.org/) - Open source object-relational database
 - [Firebase](https://firebase.google.com/) - Auth - Authenticate and manage users
 - [FramerMotion](https://www.framer.com/motion/) - Production-ready motion library for React
 

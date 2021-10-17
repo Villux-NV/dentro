@@ -16,37 +16,9 @@ Dentro is a website where you can visualize your family tree. Add multiple famil
 
 [![](http://img.youtube.com/vi/wEMD8swTq0M/0.jpg)](http://www.youtube.com/watch?v=wEMD8swTq0M "Dentro Overview")
 
-## Getting started
+## Current Progress
 
-1. Clone the repo
-
-```
-git clone https://github.com/Villux-NV/dentro.git
-```
-
-2. Install dependencies for server and client
-
-```
-cd client
-npm install
-```
-
-```
-cd server
-npm install
-```
-
-3. Start servers for server and client
-
-```
-cd client
-npm start
-```
-
-```
-cd server
-npm start
-```
+1. Quite a hefty project that is currently in development. Currently working on this by myself but let me know if you'd like to join in this project. Thanks for checking out what is currently available.
 
 ## Tech Stack
 
@@ -59,10 +31,10 @@ npm start
 
 ## Future
 
-This project is still being improved upon. Any recommendations are welcome!
+Any recommendations are welcome!
 
-- Connect with Family - Share tree with everyone included
-- Calendar - Share events with everyone connected
+- Connect with Family - Share tree with your family to fill it out!
+- Calendar - Share events with everyone connected in your tree.
 - Mobile friendly - Take your family and show off to everyone!
 
 ## Author
